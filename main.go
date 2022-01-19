@@ -8,6 +8,7 @@ import (
 	"github.com/diamondburned/arikawa/v2/api/webhook"
 	"github.com/diamondburned/arikawa/v2/discord"
 	"github.com/diamondburned/arikawa/v2/utils/json/option"
+	"github.com/diamondburned/arikawa/v2/utils/sendpart"
 	"github.com/urfave/cli/v2"
 )
 
@@ -74,13 +75,29 @@ func main() {
 						Aliases:     []string{"t"},
 						Destination: &tts,
 					},
+					&cli.StringSliceFlag{
+						Name:    "file",
+						Usage:   "webhook attachment",
+						Aliases: []string{"f"},
+					},
 				},
 				Action: func(c *cli.Context) error {
+					var files []sendpart.File
+					for _, f := range c.StringSlice("file") {
+						file, err := os.OpenFile(f, os.O_RDONLY, os.ModeAppend)
+						if err != nil {
+							return err
+						}
+
+						files = append(files, sendpart.File{Name: file.Name(), Reader: file})
+					}
+
 					return client.Execute(webhook.ExecuteData{
 						Content:   content,
 						Username:  username,
 						AvatarURL: avatarUrl,
-						TTS:       tts},
+						TTS:       tts,
+						Files:     files},
 					)
 
 				},
