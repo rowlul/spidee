@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 
 	"github.com/diamondburned/arikawa/v2/api/webhook"
 	"github.com/diamondburned/arikawa/v2/discord"
@@ -80,6 +82,22 @@ func main() {
 						Usage:   "webhook attachment",
 						Aliases: []string{"f"},
 					},
+					&cli.StringFlag{Name: "embed-title", Usage: "embed title"},
+					&cli.StringFlag{Name: "embed-description", Usage: "embed description"},
+					&cli.StringFlag{Name: "embed-url", Usage: "embed url"},
+					&cli.StringFlag{Name: "embed-timestamp", Usage: "embed timestamp"},
+					&cli.IntFlag{Name: "embed-color", Usage: "embed color"},
+					&cli.StringFlag{Name: "embed-footer-text", Usage: "embed footer text"},
+					&cli.StringFlag{Name: "embed-footer-icon", Usage: "embed footer icon"},
+					&cli.StringFlag{Name: "embed-image-url", Usage: "embed image url"},
+					&cli.StringFlag{Name: "embed-thumbnail-url", Usage: "embed thumbnail url"},
+					&cli.StringFlag{Name: "embed-video-url", Usage: "embed video url"},
+					&cli.StringFlag{Name: "embed-provider-name", Usage: "embed provider name"},
+					&cli.StringFlag{Name: "embed-provider-url", Usage: "embed provider url"},
+					&cli.StringFlag{Name: "embed-author-name", Usage: "embed author name"},
+					&cli.StringFlag{Name: "embed-author-url", Usage: "embed author url"},
+					&cli.StringFlag{Name: "embed-author-icon", Usage: "embed author icon"},
+					&cli.StringSliceFlag{Name: "embed-field", Usage: "embed field"},
 				},
 				Action: func(c *cli.Context) error {
 					var files []sendpart.File
@@ -92,14 +110,64 @@ func main() {
 						files = append(files, sendpart.File{Name: file.Name(), Reader: file})
 					}
 
-					return client.Execute(webhook.ExecuteData{
+					embedTimestamp, err := time.Parse(time.RFC3339, c.String("embed-timestamp"))
+					if c.String("embed-timestamp") == "now" {
+						embedTimestamp = time.Now()
+					} else if len(c.String("embed-timestamp")) > 0 && err != nil {
+						log.Fatalln(`Argument "timestamp" must be valid RFC3339 timestamp`)
+					}
+
+					var embedFields []discord.EmbedField
+					for _, f := range c.StringSlice("embed-field") {
+						field := strings.Split(f, ",")
+
+						var inline bool
+						if len(field) > 2 {
+							inline, err = strconv.ParseBool(field[2])
+							if err != nil {
+								log.Fatalln(`Argument "inline" must be bool`)
+							}
+						}
+
+						embedFields = append(embedFields, discord.EmbedField{Name: field[0], Value: field[1], Inline: inline})
+					}
+
+					embeds := []discord.Embed{{
+						Title:       c.String("embed-title"),
+						Description: c.String("embed-description"),
+						URL:         c.String("embed-url"),
+						Timestamp:   discord.NewTimestamp(embedTimestamp),
+						Color:       discord.Color(c.Int("embed-color")),
+						Footer:      &discord.EmbedFooter{Text: c.String("embed-footer-text"), Icon: c.String("embed-footer-icon")},
+						Image:       &discord.EmbedImage{URL: c.String("embed-image-url")},
+						Thumbnail:   &discord.EmbedThumbnail{URL: c.String("embed-thumbnail-url")},
+						Video:       &discord.EmbedVideo{URL: c.String("embed-video-url")},
+						Provider:    &discord.EmbedProvider{Name: c.String("embed-provider-name"), URL: c.String("embed-provider-url")},
+						Author:      &discord.EmbedAuthor{Name: c.String("embed-author-name"), URL: c.String("embed-author-url"), Icon: c.String("embed-author-icon")},
+						Fields:      embedFields},
+					}
+
+					err = embeds[0].Validate()
+					if err != nil {
+						log.Fatalln(err)
+					}
+
+					data := webhook.ExecuteData{
 						Content:   content,
 						Username:  username,
 						AvatarURL: avatarUrl,
 						TTS:       tts,
-						Files:     files},
-					)
+						Files:     files,
+						Embeds:    embeds,
+					}
 
+					err = client.Execute(data)
+					if err != nil && strings.Contains(err.Error(), "Invalid Form Body") { // unpleasant workaround to send message if no embed supplied
+						data.Embeds = nil
+						err = client.Execute(data)
+					}
+
+					return err
 				},
 			},
 			{
