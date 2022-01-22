@@ -1,8 +1,6 @@
 package command
 
 import (
-	"strings"
-
 	"github.com/diamondburned/arikawa/v2/api/webhook"
 	"github.com/rowlul/spidee/cli/util"
 	"github.com/urfave/cli/v2"
@@ -30,16 +28,13 @@ func SendCommand(client webhook.Client) cli.Command {
 				AvatarURL: c.String("avatar-url"),
 				TTS:       c.Bool("tts"),
 				Files:     files,
-				Embeds:    embeds,
 			}
 
-			err = client.Execute(data)
-			if err != nil && strings.Contains(err.Error(), "Invalid Form Body") { // unpleasant workaround to send message if no embed supplied
-				data.Embeds = nil
-				err = client.Execute(data)
+			if c.Bool("embed") {
+				data.Embeds = embeds
 			}
 
-			return err
+			return client.Execute(data)
 		},
 		Flags: []cli.Flag{
 			&cli.StringFlag{
@@ -66,6 +61,11 @@ func SendCommand(client webhook.Client) cli.Command {
 				Name:    "file",
 				Usage:   "webhook attachment",
 				Aliases: []string{"f"},
+			},
+			&cli.BoolFlag{
+				Name:    "embed",
+				Usage:   "include embed",
+				Aliases: []string{"e"},
 			},
 			&cli.StringFlag{Name: "embed-title", Usage: "embed title"},
 			&cli.StringFlag{Name: "embed-description", Usage: "embed description"},
