@@ -22,7 +22,6 @@ func EditCommand(client webhook.Client) cli.Command {
 
 			messageId, err := strconv.Atoi(c.Args().First())
 			if err != nil {
-				//log.Fatalln(`Required argument "messageId" not set or integer`)
 				return err
 			}
 

@@ -18,10 +18,6 @@ func buildEmbedTimestampFromContext(c *cli.Context) (discord.Timestamp, error) {
 
 	time, err := time.Parse(time.RFC3339, c.String("embed-timestamp"))
 	return discord.NewTimestamp(time), err
-
-	// if err != nil {
-	// 	log.Fatalln(`Argument "timestamp" must be valid RFC3339 timestamp`)
-	// }
 }
 
 func buildEmbedFieldsFromContext(c *cli.Context) ([]discord.EmbedField, error) {
@@ -34,9 +30,6 @@ func buildEmbedFieldsFromContext(c *cli.Context) ([]discord.EmbedField, error) {
 		var inline bool
 		if len(field) > 2 {
 			inline, err = strconv.ParseBool(field[2])
-			// if err != nil {
-			// 	log.Fatalln(`Argument "inline" must be bool`)
-			// }
 		}
 
 		fields = append(fields, discord.EmbedField{Name: field[0], Value: field[1], Inline: inline})
