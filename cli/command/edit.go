@@ -16,6 +16,10 @@ func EditCommand(client webhook.Client) cli.Command {
 		Usage:   "edit message",
 		Aliases: []string{"e"},
 		Action: func(c *cli.Context) error {
+			if len(c.String("content")) == 0 && !c.Bool("embed") {
+				cli.ShowCommandHelpAndExit(c, "edit", 2)
+			}
+
 			messageId, err := strconv.Atoi(c.Args().First())
 			if err != nil {
 				//log.Fatalln(`Required argument "messageId" not set or integer`)
