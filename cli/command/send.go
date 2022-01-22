@@ -12,7 +12,7 @@ func SendCommand(client webhook.Client) cli.Command {
 		Usage:   "send message",
 		Aliases: []string{"s"},
 		Action: func(c *cli.Context) error {
-			if len(c.String("content")) == 0 && !c.Bool("embed") {
+			if len(c.String("content")) == 0 && len(c.StringSlice("file")) == 0 && !c.Bool("embed") {
 				cli.ShowCommandHelpAndExit(c, "send", 2)
 			}
 
