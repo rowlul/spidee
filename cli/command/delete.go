@@ -16,7 +16,6 @@ func DeleteCommand(client webhook.Client) cli.Command {
 		Action: func(c *cli.Context) error {
 			messageId, err := strconv.Atoi(c.Args().First())
 			if err != nil {
-				//log.Fatalln(`Required argument "messageId" not set or integer`)
 				return err
 			}
 
