@@ -2,7 +2,6 @@ package command
 
 import (
 	"strconv"
-	"strings"
 
 	"github.com/diamondburned/arikawa/v2/api/webhook"
 	"github.com/diamondburned/arikawa/v2/discord"
@@ -33,25 +32,25 @@ func EditCommand(client webhook.Client) cli.Command {
 				Embeds:  &embeds,
 			}
 
-			err = client.EditMessage(
+			if c.Bool("embed") {
+				data.Embeds = &embeds
+			}
+
+			return client.EditMessage(
 				discord.MessageID(messageId),
 				data,
 			)
-			if err != nil && strings.Contains(err.Error(), "Invalid Form Body") { // unpleasant workaround to send message if no embed supplied
-				data.Embeds = nil
-				err = client.EditMessage(
-					discord.MessageID(messageId),
-					data,
-				)
-			}
-
-			return err
 		},
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "content",
 				Usage:   "plain text",
 				Aliases: []string{"c"},
+			},
+			&cli.BoolFlag{
+				Name:    "embed",
+				Usage:   "include embed",
+				Aliases: []string{"e"},
 			},
 			&cli.StringFlag{Name: "embed-title", Usage: "embed title"},
 			&cli.StringFlag{Name: "embed-description", Usage: "embed description"},
