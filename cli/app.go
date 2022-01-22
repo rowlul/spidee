@@ -24,7 +24,6 @@ var App = &cli.App{
 	},
 	Before: func(c *cli.Context) error {
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
-		_, err := client.Get()
 
 		var (
 			sendCommand   = command.SendCommand(client)
@@ -38,6 +37,6 @@ var App = &cli.App{
 			&deleteCommand,
 		}
 
-		return err
+		return nil
 	},
 }
