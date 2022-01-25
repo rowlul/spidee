@@ -2,6 +2,7 @@ package util
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/diamondburned/arikawa/v2/utils/sendpart"
 	"github.com/urfave/cli/v2"
@@ -14,7 +15,7 @@ func BuildFilesFromContext(c *cli.Context) ([]sendpart.File, error) {
 		if err != nil {
 			return files, err
 		}
-		files = append(files, sendpart.File{Name: file.Name(), Reader: file})
+		files = append(files, sendpart.File{Name: filepath.Base(file.Name()), Reader: file})
 	}
 
 	return files, nil
