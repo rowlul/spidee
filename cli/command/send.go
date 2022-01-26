@@ -74,8 +74,8 @@ func SendCommand(client webhook.Client) cli.Command {
 			&cli.StringFlag{Name: "embed-title", Usage: "embed title"},
 			&cli.StringFlag{Name: "embed-description", Usage: "embed description"},
 			&cli.StringFlag{Name: "embed-url", Usage: "embed url"},
-			&cli.StringFlag{Name: "embed-timestamp", Usage: "embed timestamp"},
-			&cli.IntFlag{Name: "embed-color", Usage: "embed color"},
+			&cli.StringFlag{Name: "embed-timestamp", Usage: "embed timestamp (now|RFC3339 timestamp)"},
+			&cli.IntFlag{Name: "embed-color", Usage: "embed color (hex)"},
 			&cli.StringFlag{Name: "embed-footer-text", Usage: "embed footer text"},
 			&cli.StringFlag{Name: "embed-footer-icon", Usage: "embed footer icon"},
 			&cli.StringFlag{Name: "embed-image-url", Usage: "embed image url"},
@@ -86,7 +86,7 @@ func SendCommand(client webhook.Client) cli.Command {
 			&cli.StringFlag{Name: "embed-author-name", Usage: "embed author name"},
 			&cli.StringFlag{Name: "embed-author-url", Usage: "embed author url"},
 			&cli.StringFlag{Name: "embed-author-icon", Usage: "embed author icon"},
-			&cli.StringSliceFlag{Name: "embed-field", Usage: "embed field"},
+			&cli.StringSliceFlag{Name: "embed-field", Usage: "embed field (name,value,inline)"},
 		},
 	}
 }
