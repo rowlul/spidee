@@ -21,6 +21,13 @@ $ vim ~/.profile
 export PATH="$HOME/.local/bin:$PATH"
 ```
 - Place the executable in `$HOME/.local/bin`
+### Source code
+- Clone this repository and run `make install` as root:
+```
+$ git clone https://github.com/rowlul/spidee.git
+$ cd spidee
+# make install
+```
 
 ## Examples
 Supply ID and token every time you execute a webhook or store in the environment:
