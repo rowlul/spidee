@@ -7,9 +7,11 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var Version string
 var App = &cli.App{
-	Name:  "spidee",
-	Usage: "A command line interface for Discord webhooks",
+	Name:    "spidee",
+	Usage:   "A command line interface for Discord webhooks",
+	Version: Version,
 	Flags: []cli.Flag{
 		&cli.IntFlag{
 			Name:    "id",
