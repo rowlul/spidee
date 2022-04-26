@@ -8,8 +8,8 @@
 *.so
 *.dylib
 
-# Build directory
-build/
+# GoReleaser artifact directory
+dist/
 
 # Test binary, built with `go test -c`
 *.test
@@ -22,3 +22,5 @@ build/
 
 # Go workspace file
 go.work
+
+dist/
