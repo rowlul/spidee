@@ -12,22 +12,6 @@ $ ./spidee
 - Install [Go](https://go.dev/dl/)
 - Ensure `$GOBIN` is in `PATH`
 - Run `go install github.com/rowlul/spidee@latest`
-### Linux
-- Download the [latest release](https://github.com/rowlul/spidee/releases)
-- Create a directory `$HOME/.local/bin` and add it to `$PATH`:
-```
-$ mkdir -vp $HOME/.local/bin
-$ vim ~/.profile
-export PATH="$HOME/.local/bin:$PATH"
-```
-- Place the executable in `$HOME/.local/bin`
-### Source code
-- Clone this repository and run `make install` as root:
-```
-$ git clone https://github.com/rowlul/spidee.git
-$ cd spidee
-# make install
-```
 
 ## Examples
 Supply ID and token every time you execute a webhook or store in the environment:
