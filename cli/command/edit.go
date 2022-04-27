@@ -2,6 +2,7 @@ package command
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/diamondburned/arikawa/v2/api/webhook"
 	"github.com/diamondburned/arikawa/v2/discord"
@@ -16,7 +17,7 @@ func EditCommand(client webhook.Client) cli.Command {
 		Usage:   "edit message",
 		Aliases: []string{"e"},
 		Action: func(c *cli.Context) error {
-			if len(c.String("content")) == 0 && !c.Bool("embed") {
+			if len(c.String("content")) == 0 && !c.Bool("embed") && !util.IsStdin() {
 				cli.ShowCommandHelpAndExit(c, "edit", 2)
 			}
 
@@ -33,6 +34,10 @@ func EditCommand(client webhook.Client) cli.Command {
 			data := webhook.EditMessageData{
 				Content: option.NewNullableString(c.String("content")),
 				Embeds:  &embeds,
+			}
+
+			if util.IsStdin() {
+				data.Content = option.NewNullableString(strings.Join(util.ReadStdin(), "\n"))
 			}
 
 			if c.Bool("embed") {

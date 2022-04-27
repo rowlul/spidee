@@ -1,6 +1,8 @@
 package command
 
 import (
+	"strings"
+
 	"github.com/diamondburned/arikawa/v2/api/webhook"
 	"github.com/rowlul/spidee/cli/util"
 	"github.com/urfave/cli/v2"
@@ -12,7 +14,7 @@ func SendCommand(client webhook.Client) cli.Command {
 		Usage:   "send message",
 		Aliases: []string{"s"},
 		Action: func(c *cli.Context) error {
-			if len(c.String("content")) == 0 && len(c.StringSlice("file")) == 0 && !c.Bool("embed") {
+			if len(c.String("content")) == 0 && len(c.StringSlice("file")) == 0 && !c.Bool("embed") && !util.IsStdin() {
 				cli.ShowCommandHelpAndExit(c, "send", 2)
 			}
 
@@ -32,6 +34,10 @@ func SendCommand(client webhook.Client) cli.Command {
 				AvatarURL: c.String("avatar-url"),
 				TTS:       c.Bool("tts"),
 				Files:     files,
+			}
+
+			if util.IsStdin() {
+				data.Content = strings.Join(util.ReadStdin(), "\n")
 			}
 
 			if c.Bool("embed") {
