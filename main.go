@@ -8,7 +8,14 @@ import (
 )
 
 func main() {
-	err := cli.App.Run(os.Args)
+	var err error
+
+	if util.IsStdin() {
+		err = cli.App.Run([]string{os.Args[0], "send"})
+	} else {
+		err = cli.App.Run(os.Args)
+	}
+
 	if err != nil {
 		util.HandleError(err)
 	}
