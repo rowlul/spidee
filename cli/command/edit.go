@@ -33,7 +33,6 @@ func EditCommand(client webhook.Client) cli.Command {
 
 			data := webhook.EditMessageData{
 				Content: option.NewNullableString(c.String("content")),
-				Embeds:  &embeds,
 			}
 
 			if util.IsStdin() {
