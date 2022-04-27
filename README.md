@@ -26,6 +26,10 @@ $ export SPIDEE_WEBHOOK_TOKEN="TOKEN"
 Send a plain text message:
 ```
 $ spidee send --content "Hello world"
+
+# ..or use a pipe
+
+$ echo "Hello world" | spidee
 ```
 Send a plain text message with attachments:
 ```
