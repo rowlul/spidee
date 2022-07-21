@@ -39,6 +39,8 @@ var App = &cli.App{
 			&deleteCommand,
 		}
 
+		c.App.DefaultCommand = "send"
+
 		return nil
 	},
 }
