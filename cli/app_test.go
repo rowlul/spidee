@@ -110,3 +110,20 @@ func TestSendCommandWithEmbedFields(t *testing.T) {
 
 	is.NoErr(err)
 }
+
+func TestSendCommandWithPayload(t *testing.T) {
+	is := is.New(t)
+	app := cli.NewApp()
+	app.DisableSliceFlagSeparator = true
+	client := getWebhookClient()
+	command := command.SendCommand(*client)
+
+	app.Commands = []*cli.Command{&command}
+
+	args := os.Args[0:1]
+	args = append(args, "send",
+		"--payload", "{\"content\":\"content from payload\",\"username\":\"spidee\"}")
+	err := app.Run(args)
+
+	is.NoErr(err)
+}
