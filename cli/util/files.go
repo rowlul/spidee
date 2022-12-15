@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/diamondburned/arikawa/v2/utils/sendpart"
+	"github.com/diamondburned/arikawa/v3/utils/sendpart"
 	"github.com/urfave/cli/v2"
 )
 

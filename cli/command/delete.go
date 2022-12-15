@@ -3,8 +3,8 @@ package command
 import (
 	"strconv"
 
-	"github.com/diamondburned/arikawa/v2/api/webhook"
-	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/diamondburned/arikawa/v3/api/webhook"
+	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/urfave/cli/v2"
 )
 

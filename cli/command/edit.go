@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/diamondburned/arikawa/v2/api/webhook"
-	"github.com/diamondburned/arikawa/v2/discord"
-	"github.com/diamondburned/arikawa/v2/utils/json/option"
+	"github.com/diamondburned/arikawa/v3/api/webhook"
+	"github.com/diamondburned/arikawa/v3/discord"
+	"github.com/diamondburned/arikawa/v3/utils/json/option"
 	"github.com/rowlul/spidee/cli/util"
 	"github.com/urfave/cli/v2"
 )
@@ -43,10 +43,12 @@ func EditCommand(client webhook.Client) cli.Command {
 				data.Embeds = &embeds
 			}
 
-			return client.EditMessage(
+			_, err = client.EditMessage(
 				discord.MessageID(messageId),
 				data,
 			)
+
+			return err
 		},
 		Flags: []cli.Flag{
 			&cli.StringFlag{

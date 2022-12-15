@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/diamondburned/arikawa/v2/api/webhook"
-	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/diamondburned/arikawa/v3/api/webhook"
+	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/matryer/is"
 	"github.com/rowlul/spidee/cli/command"
 	"github.com/urfave/cli/v2"

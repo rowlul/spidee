@@ -3,7 +3,7 @@ package command
 import (
 	"strings"
 
-	"github.com/diamondburned/arikawa/v2/api/webhook"
+	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/rowlul/spidee/cli/util"
 	"github.com/urfave/cli/v2"
 )
