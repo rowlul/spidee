@@ -43,4 +43,5 @@ var App = &cli.App{
 
 		return nil
 	},
+	DisableSliceFlagSeparator: true,
 }

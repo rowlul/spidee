@@ -95,6 +95,7 @@ func TestSendCommandWithEmbedTimestamp(t *testing.T) {
 func TestSendCommandWithEmbedFields(t *testing.T) {
 	is := is.New(t)
 	app := cli.NewApp()
+	app.DisableSliceFlagSeparator = true
 	client := getWebhookClient()
 	command := command.SendCommand(*client)
 
