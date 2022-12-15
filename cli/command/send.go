@@ -1,6 +1,7 @@
 package command
 
 import (
+	"encoding/json"
 	"strings"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
@@ -14,7 +15,16 @@ func SendCommand(client webhook.Client) cli.Command {
 		Usage:   "send message",
 		Aliases: []string{"s"},
 		Action: func(c *cli.Context) error {
-			if len(c.String("content")) == 0 && len(c.StringSlice("file")) == 0 && !c.Bool("embed") && !util.IsStdin() {
+			if len(c.String("payload")) > 0 {
+				payload := c.String("payload")
+				data := webhook.ExecuteData{}
+				json.Unmarshal([]byte(payload), &data)
+				return client.Execute(data)
+			}
+
+			if len(c.String("content")) == 0 &&
+				len(c.StringSlice("file")) == 0 &&
+				!c.Bool("embed") && !util.IsStdin() {
 				cli.ShowCommandHelpAndExit(c, "send", 2)
 			}
 
@@ -94,6 +104,7 @@ func SendCommand(client webhook.Client) cli.Command {
 			&cli.StringFlag{Name: "embed-author-url", Usage: "embed author url"},
 			&cli.StringFlag{Name: "embed-author-icon", Usage: "embed author icon"},
 			&cli.StringSliceFlag{Name: "embed-field", Usage: "embed field (name,value,inline)"},
+			&cli.StringFlag{Name: "payload", Usage: "raw json payload"},
 		},
 	}
 }
