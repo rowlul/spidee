@@ -68,9 +68,10 @@ func SendCommand(client webhook.Client) cli.Command {
 				Aliases: []string{"t"},
 			},
 			&cli.StringSliceFlag{
-				Name:    "file",
-				Usage:   "webhook attachment",
-				Aliases: []string{"f"},
+				Name:      "file",
+				Usage:     "webhook attachment",
+				Aliases:   []string{"f"},
+				TakesFile: true,
 			},
 			&cli.BoolFlag{
 				Name:    "embed",
