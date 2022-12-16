@@ -15,6 +15,17 @@ func SendCommand(client webhook.Client) cli.Command {
 		Usage:   "send message",
 		Aliases: []string{"s"},
 		Action: func(c *cli.Context) error {
+			if util.IsStdin() {
+				s := strings.Join(util.ReadStdin(), "\n")
+				data := webhook.ExecuteData{}
+				if json.Valid([]byte(s)) {
+					json.Unmarshal([]byte(s), &data)
+				} else {
+					data.Content = s
+				}
+				return client.Execute(data)
+			}
+
 			if len(c.String("payload")) > 0 {
 				payload := c.String("payload")
 				data := webhook.ExecuteData{}
@@ -44,10 +55,6 @@ func SendCommand(client webhook.Client) cli.Command {
 				AvatarURL: c.String("avatar-url"),
 				TTS:       c.Bool("tts"),
 				Files:     files,
-			}
-
-			if util.IsStdin() {
-				data.Content = strings.Join(util.ReadStdin(), "\n")
 			}
 
 			if c.Bool("embed") {
