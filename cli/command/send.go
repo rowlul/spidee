@@ -13,7 +13,7 @@ import (
 
 var SendCommand = cli.Command{
 	Name:    "send",
-	Usage:   "send message",
+	Usage:   "Send message",
 	Aliases: []string{"s"},
 	Action: func(c *cli.Context) error {
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
