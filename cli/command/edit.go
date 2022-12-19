@@ -22,6 +22,7 @@ var EditCommand = cli.Command{
 
 		messageId, err := strconv.Atoi(c.Args().First())
 		if err != nil {
+			cli.ShowSubcommandHelp(c)
 			log.Fatalln("error: message id not set or not integer")
 		}
 
