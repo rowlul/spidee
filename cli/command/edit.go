@@ -38,6 +38,15 @@ var EditCommand = cli.Command{
 			return err
 		}
 
+		if len(c.String("payload")) > 0 {
+			payload := c.String("payload")
+			data := webhook.EditMessageData{}
+			json.Unmarshal([]byte(payload), &data)
+
+			_, err := client.EditMessage(discord.MessageID(messageId), data)
+			return err
+		}
+
 		if len(c.String("content")) == 0 &&
 			len(c.StringSlice("file")) == 0 &&
 			!c.Bool("embed") && !util.IsStdin() {
@@ -103,5 +112,6 @@ var EditCommand = cli.Command{
 		&cli.StringFlag{Name: "embed-author-url", Usage: "embed author url"},
 		&cli.StringFlag{Name: "embed-author-icon", Usage: "embed author icon"},
 		&cli.StringSliceFlag{Name: "embed-field", Usage: "embed field"},
+		&cli.StringFlag{Name: "payload", Usage: "raw json payload"},
 	},
 }
