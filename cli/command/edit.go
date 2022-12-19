@@ -112,6 +112,9 @@ var EditCommand = cli.Command{
 		&cli.StringFlag{Name: "embed-author-url", Usage: "embed author url"},
 		&cli.StringFlag{Name: "embed-author-icon", Usage: "embed author icon"},
 		&cli.StringSliceFlag{Name: "embed-field", Usage: "embed field"},
-		&cli.StringFlag{Name: "payload", Usage: "raw json payload"},
+		&cli.StringFlag{
+			Name:    "payload",
+			Usage:   "raw json payload",
+			Aliases: []string{"p"}},
 	},
 }
