@@ -14,14 +14,16 @@ func NewApp() *cli.App {
 		Version: Version,
 		Flags: []cli.Flag{
 			&cli.IntFlag{
-				Name:    "id",
-				Usage:   "webhook id",
-				EnvVars: []string{"SPIDEE_WEBHOOK_ID"},
+				Name:     "id",
+				Usage:    "webhook id",
+				EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
+				Required: true,
 			},
 			&cli.StringFlag{
-				Name:    "token",
-				Usage:   "webhook token",
-				EnvVars: []string{"SPIDEE_WEBHOOK_TOKEN"},
+				Name:     "token",
+				Usage:    "webhook token",
+				EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
+				Required: true,
 			},
 		},
 		Commands: []*cli.Command{
