@@ -1,6 +1,7 @@
 package command
 
 import (
+	"encoding/json"
 	"strconv"
 	"strings"
 
@@ -18,13 +19,26 @@ var EditCommand = cli.Command{
 	Action: func(c *cli.Context) error {
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
 
-		if len(c.String("content")) == 0 && !c.Bool("embed") && !util.IsStdin() {
-			cli.ShowSubcommandHelpAndExit(c, 2)
-		}
-
 		messageId, err := strconv.Atoi(c.Args().First())
 		if err != nil {
 			return err
+		}
+
+		if util.IsStdin() {
+			s := strings.Join(util.ReadStdin(), "\n")
+			data := webhook.EditMessageData{}
+			if json.Valid([]byte(s)) {
+				json.Unmarshal([]byte(s), &data)
+			} else {
+				data.Content = option.NewNullableString(s)
+			}
+
+			_, err := client.EditMessage(discord.MessageID(messageId), data)
+			return err
+		}
+
+		if len(c.String("content")) == 0 && !c.Bool("embed") && !util.IsStdin() {
+			cli.ShowSubcommandHelpAndExit(c, 2)
 		}
 
 		embeds, err := util.BuildEmbedsFromContext(c)
@@ -34,10 +48,6 @@ var EditCommand = cli.Command{
 
 		data := webhook.EditMessageData{
 			Content: option.NewNullableString(c.String("content")),
-		}
-
-		if util.IsStdin() {
-			data.Content = option.NewNullableString(strings.Join(util.ReadStdin(), "\n"))
 		}
 
 		if c.Bool("embed") {
