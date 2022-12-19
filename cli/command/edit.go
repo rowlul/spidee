@@ -38,8 +38,15 @@ var EditCommand = cli.Command{
 			return err
 		}
 
-		if len(c.String("content")) == 0 && !c.Bool("embed") && !util.IsStdin() {
+		if len(c.String("content")) == 0 &&
+			len(c.StringSlice("file")) == 0 &&
+			!c.Bool("embed") && !util.IsStdin() {
 			cli.ShowSubcommandHelpAndExit(c, 2)
+		}
+
+		files, err := util.BuildFilesFromContext(c)
+		if err != nil {
+			log.Fatalln(util.FormatFileError(err))
 		}
 
 		embeds, err := util.BuildEmbedsFromContext(c)
@@ -49,6 +56,7 @@ var EditCommand = cli.Command{
 
 		data := webhook.EditMessageData{
 			Content: option.NewNullableString(c.String("content")),
+			Files:   files,
 		}
 
 		if c.Bool("embed") {
@@ -67,6 +75,12 @@ var EditCommand = cli.Command{
 			Name:    "content",
 			Usage:   "plain text",
 			Aliases: []string{"c"},
+		},
+		&cli.StringSliceFlag{
+			Name:      "file",
+			Usage:     "webhook attachment",
+			Aliases:   []string{"f"},
+			TakesFile: true,
 		},
 		&cli.BoolFlag{
 			Name:    "embed",
