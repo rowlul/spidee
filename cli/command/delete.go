@@ -8,18 +8,18 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func DeleteCommand(client webhook.Client) cli.Command {
-	return cli.Command{
-		Name:    "delete",
-		Usage:   "delete a message",
-		Aliases: []string{"d"},
-		Action: func(c *cli.Context) error {
-			messageId, err := strconv.Atoi(c.Args().First())
-			if err != nil {
-				return err
-			}
+var DeleteCommand = cli.Command{
+	Name:    "delete",
+	Usage:   "delete a message",
+	Aliases: []string{"d"},
+	Action: func(c *cli.Context) error {
+		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
 
-			return client.DeleteMessage(discord.MessageID(messageId))
-		},
-	}
+		messageId, err := strconv.Atoi(c.Args().First())
+		if err != nil {
+			return err
+		}
+
+		return client.DeleteMessage(discord.MessageID(messageId))
+	},
 }

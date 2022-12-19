@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	err := cli.App.Run(os.Args)
+	err := cli.NewApp().Run(os.Args)
 	if err != nil {
 		util.HandleError(err)
 	}

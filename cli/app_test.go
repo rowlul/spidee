@@ -2,37 +2,34 @@ package cli
 
 import (
 	"os"
-	"strconv"
 	"testing"
 
-	"github.com/diamondburned/arikawa/v3/api/webhook"
-	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/matryer/is"
 	"github.com/rowlul/spidee/cli/command"
 	"github.com/urfave/cli/v2"
 )
 
-func getWebhookClient() *webhook.Client {
-	id, err := strconv.Atoi(os.Getenv("SPIDEE_WEBHOOK_ID"))
-	if err != nil {
-		panic("no or invalid id supplied")
+func getFlags() []cli.Flag {
+	return []cli.Flag{
+		&cli.IntFlag{
+			Name:    "id",
+			Usage:   "webhook id",
+			EnvVars: []string{"SPIDEE_WEBHOOK_ID"},
+		},
+		&cli.StringFlag{
+			Name:    "token",
+			Usage:   "webhook token",
+			EnvVars: []string{"SPIDEE_WEBHOOK_TOKEN"},
+		},
 	}
-
-	token := os.Getenv("SPIDEE_WEBHOOK_TOKEN")
-	if token == "" {
-		panic("no token supplied")
-	}
-
-	return webhook.New(discord.WebhookID(id), token)
 }
 
 func TestSendCommandWithContent(t *testing.T) {
 	is := is.New(t)
-	app := cli.NewApp()
-	client := getWebhookClient()
-	command := command.SendCommand(*client)
 
-	app.Commands = []*cli.Command{&command}
+	app := cli.NewApp()
+	app.Flags = getFlags()
+	app.Commands = []*cli.Command{&command.SendCommand}
 
 	args := os.Args[0:1]
 	args = append(args, "send", "--content", "content")
@@ -43,11 +40,10 @@ func TestSendCommandWithContent(t *testing.T) {
 
 func TestSendCommandWithFile(t *testing.T) {
 	is := is.New(t)
-	app := cli.NewApp()
-	client := getWebhookClient()
-	command := command.SendCommand(*client)
 
-	app.Commands = []*cli.Command{&command}
+	app := cli.NewApp()
+	app.Flags = getFlags()
+	app.Commands = []*cli.Command{&command.SendCommand}
 
 	args := os.Args[0:1]
 	args = append(args, "send", "--file", "app_test.go")
@@ -58,11 +54,10 @@ func TestSendCommandWithFile(t *testing.T) {
 
 func TestSendCommandWithEmbed(t *testing.T) {
 	is := is.New(t)
-	app := cli.NewApp()
-	client := getWebhookClient()
-	command := command.SendCommand(*client)
 
-	app.Commands = []*cli.Command{&command}
+	app := cli.NewApp()
+	app.Flags = getFlags()
+	app.Commands = []*cli.Command{&command.SendCommand}
 
 	url := "https://go.dev/"
 
@@ -79,11 +74,10 @@ func TestSendCommandWithEmbed(t *testing.T) {
 
 func TestSendCommandWithEmbedTimestamp(t *testing.T) {
 	is := is.New(t)
-	app := cli.NewApp()
-	client := getWebhookClient()
-	command := command.SendCommand(*client)
 
-	app.Commands = []*cli.Command{&command}
+	app := cli.NewApp()
+	app.Flags = getFlags()
+	app.Commands = []*cli.Command{&command.SendCommand}
 
 	args := os.Args[0:1]
 	args = append(args, "send", "--embed", "--embed-title", "title", "--embed-timestamp", "2015-12-31T12:00:00.000Z")
@@ -94,12 +88,11 @@ func TestSendCommandWithEmbedTimestamp(t *testing.T) {
 
 func TestSendCommandWithEmbedFields(t *testing.T) {
 	is := is.New(t)
+
 	app := cli.NewApp()
 	app.DisableSliceFlagSeparator = true
-	client := getWebhookClient()
-	command := command.SendCommand(*client)
-
-	app.Commands = []*cli.Command{&command}
+	app.Flags = getFlags()
+	app.Commands = []*cli.Command{&command.SendCommand}
 
 	args := os.Args[0:1]
 	args = append(args, "send", "--embed",
@@ -113,12 +106,11 @@ func TestSendCommandWithEmbedFields(t *testing.T) {
 
 func TestSendCommandWithPayload(t *testing.T) {
 	is := is.New(t)
+
 	app := cli.NewApp()
 	app.DisableSliceFlagSeparator = true
-	client := getWebhookClient()
-	command := command.SendCommand(*client)
-
-	app.Commands = []*cli.Command{&command}
+	app.Flags = getFlags()
+	app.Commands = []*cli.Command{&command.SendCommand}
 
 	args := os.Args[0:1]
 	args = append(args, "send",
