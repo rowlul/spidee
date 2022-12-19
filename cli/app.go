@@ -2,7 +2,6 @@ package cli
 
 import (
 	"github.com/rowlul/spidee/cli/command"
-	"github.com/rowlul/spidee/cli/util"
 	"github.com/urfave/cli/v2"
 )
 
@@ -33,12 +32,5 @@ func NewApp() *cli.App {
 			&command.DeleteCommand,
 		},
 		DisableSliceFlagSeparator: true,
-		Before: func(c *cli.Context) error {
-			if util.IsStdin() {
-				c.App.DefaultCommand = "send"
-			}
-
-			return nil
-		},
 	}
 }

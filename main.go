@@ -11,7 +11,13 @@ import (
 func main() {
 	log.SetFlags(0)
 
-	err := cli.NewApp().Run(os.Args)
+	app := cli.NewApp()
+
+	if util.IsStdin() {
+		app.DefaultCommand = "send"
+	}
+
+	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatalln(util.FormatError(err))
 	}
