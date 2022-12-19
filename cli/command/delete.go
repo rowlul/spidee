@@ -10,9 +10,10 @@ import (
 )
 
 var DeleteCommand = cli.Command{
-	Name:    "delete",
-	Usage:   "Delete message",
-	Aliases: []string{"d"},
+	Name:      "delete",
+	Usage:     "Delete message",
+	ArgsUsage: "<message id>",
+	Aliases:   []string{"d"},
 	Action: func(c *cli.Context) error {
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
 

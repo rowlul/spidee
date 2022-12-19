@@ -14,9 +14,10 @@ import (
 )
 
 var EditCommand = cli.Command{
-	Name:    "edit",
-	Usage:   "Edit message",
-	Aliases: []string{"e"},
+	Name:      "edit",
+	Usage:     "Edit message",
+	ArgsUsage: "<message id>",
+	Aliases:   []string{"e"},
 	Action: func(c *cli.Context) error {
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
 
