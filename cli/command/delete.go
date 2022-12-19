@@ -1,6 +1,7 @@
 package command
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
@@ -17,9 +18,10 @@ var DeleteCommand = cli.Command{
 
 		messageId, err := strconv.Atoi(c.Args().First())
 		if err != nil {
-			return err
+			log.Fatalln("error: message id not set or not integer")
 		}
 
-		return client.DeleteMessage(discord.MessageID(messageId))
+		err = client.DeleteMessage(discord.MessageID(messageId))
+		return err
 	},
 }

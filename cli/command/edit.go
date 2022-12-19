@@ -2,6 +2,7 @@ package command
 
 import (
 	"encoding/json"
+	"log"
 	"strconv"
 	"strings"
 
@@ -21,7 +22,7 @@ var EditCommand = cli.Command{
 
 		messageId, err := strconv.Atoi(c.Args().First())
 		if err != nil {
-			return err
+			log.Fatalln("error: message id not set or not integer")
 		}
 
 		if util.IsStdin() {
@@ -43,7 +44,7 @@ var EditCommand = cli.Command{
 
 		embeds, err := util.BuildEmbedsFromContext(c)
 		if err != nil {
-			return err
+			log.Fatalln(util.FormatEmbedError(err))
 		}
 
 		data := webhook.EditMessageData{

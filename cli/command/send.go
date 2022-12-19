@@ -2,6 +2,7 @@ package command
 
 import (
 	"encoding/json"
+	"log"
 	"strings"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
@@ -25,14 +26,18 @@ var SendCommand = cli.Command{
 			} else {
 				data.Content = s
 			}
-			return client.Execute(data)
+
+			err := client.Execute(data)
+			return err
 		}
 
 		if len(c.String("payload")) > 0 {
 			payload := c.String("payload")
 			data := webhook.ExecuteData{}
 			json.Unmarshal([]byte(payload), &data)
-			return client.Execute(data)
+
+			err := client.Execute(data)
+			return err
 		}
 
 		if len(c.String("content")) == 0 &&
@@ -43,12 +48,12 @@ var SendCommand = cli.Command{
 
 		files, err := util.BuildFilesFromContext(c)
 		if err != nil {
-			return err
+			log.Fatalln(util.FormatFileError(err))
 		}
 
 		embeds, err := util.BuildEmbedsFromContext(c)
 		if err != nil {
-			return err
+			log.Fatalln(util.FormatEmbedError(err))
 		}
 
 		data := webhook.ExecuteData{
@@ -63,7 +68,8 @@ var SendCommand = cli.Command{
 			data.Embeds = embeds
 		}
 
-		return client.Execute(data)
+		err = client.Execute(data)
+		return err
 	},
 	Flags: []cli.Flag{
 		&cli.StringFlag{
