@@ -83,7 +83,8 @@ var SendCommand = cli.Command{
 		if len(c.String("content")) == 0 &&
 			len(c.StringSlice("file")) == 0 &&
 			!c.Bool("embed") {
-			cli.ShowSubcommandHelpAndExit(c, 2)
+			cli.ShowSubcommandHelp(c)
+			log.Fatalln("error: no content, file, or embed supplied")
 		}
 
 		files, err := util.BuildFilesFromContext(c)
