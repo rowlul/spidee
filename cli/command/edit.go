@@ -75,7 +75,7 @@ var EditCommand = cli.Command{
 
 		if len(c.String("content")) == 0 &&
 			len(c.StringSlice("file")) == 0 &&
-			!c.Bool("embed") && !util.IsStdin() {
+			!c.Bool("embed") {
 			cli.ShowSubcommandHelpAndExit(c, 2)
 		}
 
