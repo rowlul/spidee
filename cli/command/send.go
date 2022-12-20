@@ -27,6 +27,26 @@ var SendCommand = cli.Command{
 				data.Content = s
 			}
 
+			if c.Bool("wait") {
+				message, err := client.ExecuteAndWait(data)
+				if err != nil {
+					return err
+				}
+
+				if c.Bool("json") {
+					format := c.Bool("format")
+
+					msg, err := util.StringifyMessage(message, format)
+					if err != nil {
+						return nil
+					}
+
+					log.Println(msg)
+				}
+			} else if c.Bool("json") {
+				log.Fatalln("error: must wait for message before output (use --wait)")
+			}
+
 			err := client.Execute(data)
 			return err
 		}
@@ -35,6 +55,26 @@ var SendCommand = cli.Command{
 			payload := c.String("payload")
 			data := webhook.ExecuteData{}
 			json.Unmarshal([]byte(payload), &data)
+
+			if c.Bool("wait") {
+				message, err := client.ExecuteAndWait(data)
+				if err != nil {
+					return err
+				}
+
+				if c.Bool("json") {
+					format := c.Bool("format")
+
+					msg, err := util.StringifyMessage(message, format)
+					if err != nil {
+						return nil
+					}
+
+					log.Println(msg)
+				}
+			} else if c.Bool("json") {
+				log.Fatalln("error: must wait for message before output (use --wait)")
+			}
 
 			err := client.Execute(data)
 			return err
@@ -66,6 +106,26 @@ var SendCommand = cli.Command{
 
 		if c.Bool("embed") {
 			data.Embeds = embeds
+		}
+
+		if c.Bool("wait") {
+			message, err := client.ExecuteAndWait(data)
+			if err != nil {
+				return err
+			}
+
+			if c.Bool("json") {
+				format := c.Bool("format")
+
+				msg, err := util.StringifyMessage(message, format)
+				if err != nil {
+					return nil
+				}
+
+				log.Println(msg)
+			}
+		} else if c.Bool("json") {
+			log.Fatalln("error: must wait for message before output (use --wait)")
 		}
 
 		err = client.Execute(data)
@@ -123,5 +183,11 @@ var SendCommand = cli.Command{
 			Name:    "payload",
 			Usage:   "raw json payload",
 			Aliases: []string{"p"}},
+		&cli.BoolFlag{
+			Name:    "wait",
+			Usage:   "wait for message to be created",
+			Aliases: []string{"w"}},
+		&cli.BoolFlag{Name: "json", Usage: "output message object in json"},
+		&cli.BoolFlag{Name: "format", Usage: "format output"},
 	},
 }

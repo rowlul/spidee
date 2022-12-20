@@ -36,7 +36,19 @@ var EditCommand = cli.Command{
 				data.Content = option.NewNullableString(s)
 			}
 
-			_, err := client.EditMessage(discord.MessageID(messageId), data)
+			message, err := client.EditMessage(discord.MessageID(messageId), data)
+
+			if c.Bool("json") {
+				format := c.Bool("format")
+
+				msg, err := util.StringifyMessage(message, format)
+				if err != nil {
+					return nil
+				}
+
+				log.Println(msg)
+			}
+
 			return err
 		}
 
@@ -45,7 +57,19 @@ var EditCommand = cli.Command{
 			data := webhook.EditMessageData{}
 			json.Unmarshal([]byte(payload), &data)
 
-			_, err := client.EditMessage(discord.MessageID(messageId), data)
+			message, err := client.EditMessage(discord.MessageID(messageId), data)
+
+			if c.Bool("json") {
+				format := c.Bool("format")
+
+				msg, err := util.StringifyMessage(message, format)
+				if err != nil {
+					return nil
+				}
+
+				log.Println(msg)
+			}
+
 			return err
 		}
 
@@ -74,10 +98,21 @@ var EditCommand = cli.Command{
 			data.Embeds = &embeds
 		}
 
-		_, err = client.EditMessage(
+		message, err := client.EditMessage(
 			discord.MessageID(messageId),
 			data,
 		)
+
+		if c.Bool("json") {
+			format := c.Bool("format")
+
+			msg, err := util.StringifyMessage(message, format)
+			if err != nil {
+				return nil
+			}
+
+			log.Println(msg)
+		}
 
 		return err
 	},
@@ -118,5 +153,7 @@ var EditCommand = cli.Command{
 			Name:    "payload",
 			Usage:   "raw json payload",
 			Aliases: []string{"p"}},
+		&cli.BoolFlag{Name: "json", Usage: "output message object in json"},
+		&cli.BoolFlag{Name: "format", Usage: "format output"},
 	},
 }
