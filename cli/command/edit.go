@@ -2,6 +2,7 @@ package command
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"strconv"
 	"strings"
@@ -46,7 +47,7 @@ var EditCommand = cli.Command{
 					return nil
 				}
 
-				log.Println(msg)
+				fmt.Println(msg)
 			}
 
 			return err
@@ -67,7 +68,7 @@ var EditCommand = cli.Command{
 					return nil
 				}
 
-				log.Println(msg)
+				fmt.Println(msg)
 			}
 
 			return err
@@ -112,7 +113,7 @@ var EditCommand = cli.Command{
 				return nil
 			}
 
-			log.Println(msg)
+			fmt.Println(msg)
 		}
 
 		return err

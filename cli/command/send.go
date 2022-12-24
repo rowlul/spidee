@@ -2,6 +2,7 @@ package command
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 
@@ -41,7 +42,7 @@ var SendCommand = cli.Command{
 						return nil
 					}
 
-					log.Println(msg)
+					fmt.Println(msg)
 				}
 			} else if c.Bool("json") {
 				log.Fatalln("error: must wait for message before output (use --wait)")
@@ -70,7 +71,7 @@ var SendCommand = cli.Command{
 						return nil
 					}
 
-					log.Println(msg)
+					fmt.Println(msg)
 				}
 			} else if c.Bool("json") {
 				log.Fatalln("error: must wait for message before output (use --wait)")
@@ -123,7 +124,7 @@ var SendCommand = cli.Command{
 					return nil
 				}
 
-				log.Println(msg)
+				fmt.Println(msg)
 			}
 		} else if c.Bool("json") {
 			log.Fatalln("error: must wait for message before output (use --wait)")
