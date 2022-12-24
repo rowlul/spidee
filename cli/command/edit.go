@@ -48,6 +48,7 @@ var EditCommand = cli.Command{
 				}
 
 				fmt.Println(msg)
+				return nil
 			}
 
 			return err
@@ -69,6 +70,7 @@ var EditCommand = cli.Command{
 				}
 
 				fmt.Println(msg)
+				return nil
 			}
 
 			return err
@@ -114,6 +116,7 @@ var EditCommand = cli.Command{
 			}
 
 			fmt.Println(msg)
+			return nil
 		}
 
 		return err

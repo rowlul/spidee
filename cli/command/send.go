@@ -43,6 +43,7 @@ var SendCommand = cli.Command{
 					}
 
 					fmt.Println(msg)
+					return nil
 				}
 			} else if c.Bool("json") {
 				log.Fatalln("error: must wait for message before output (use --wait)")
@@ -72,6 +73,7 @@ var SendCommand = cli.Command{
 					}
 
 					fmt.Println(msg)
+					return nil
 				}
 			} else if c.Bool("json") {
 				log.Fatalln("error: must wait for message before output (use --wait)")
@@ -125,6 +127,7 @@ var SendCommand = cli.Command{
 				}
 
 				fmt.Println(msg)
+				return nil
 			}
 		} else if c.Bool("json") {
 			log.Fatalln("error: must wait for message before output (use --wait)")
