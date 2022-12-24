@@ -37,7 +37,7 @@ var SendCommand = cli.Command{
 				if c.Bool("json") {
 					format := c.Bool("format")
 
-					msg, err := util.StringifyMessage(message, format)
+					msg, err := util.StringifyObject(message, format)
 					if err != nil {
 						return err
 					}
@@ -67,7 +67,7 @@ var SendCommand = cli.Command{
 				if c.Bool("json") {
 					format := c.Bool("format")
 
-					msg, err := util.StringifyMessage(message, format)
+					msg, err := util.StringifyObject(message, format)
 					if err != nil {
 						return err
 					}
@@ -121,7 +121,7 @@ var SendCommand = cli.Command{
 			if c.Bool("json") {
 				format := c.Bool("format")
 
-				msg, err := util.StringifyMessage(message, format)
+				msg, err := util.StringifyObject(message, format)
 				if err != nil {
 					return err
 				}
