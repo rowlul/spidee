@@ -39,7 +39,7 @@ var SendCommand = cli.Command{
 
 					msg, err := util.StringifyMessage(message, format)
 					if err != nil {
-						return nil
+						return err
 					}
 
 					fmt.Println(msg)
@@ -69,7 +69,7 @@ var SendCommand = cli.Command{
 
 					msg, err := util.StringifyMessage(message, format)
 					if err != nil {
-						return nil
+						return err
 					}
 
 					fmt.Println(msg)
@@ -123,7 +123,7 @@ var SendCommand = cli.Command{
 
 				msg, err := util.StringifyMessage(message, format)
 				if err != nil {
-					return nil
+					return err
 				}
 
 				fmt.Println(msg)
