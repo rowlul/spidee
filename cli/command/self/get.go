@@ -17,24 +17,26 @@ var GetCommand = cli.Command{
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
 
 		webhook, err := client.Get()
-		if err != nil {
-			return err
+
+		if c.Bool("json") {
+			if !c.Bool("no-redact") {
+				webhook.Token = ""
+			}
+
+			format := c.Bool("format")
+			msg, err := util.StringifyObject(webhook, format)
+			if err != nil {
+				return err
+			}
+
+			fmt.Println(msg)
+			return nil
 		}
 
-		if !c.Bool("no-redact") {
-			webhook.Token = ""
-		}
-
-		format := c.Bool("format")
-		msg, err := util.StringifyObject(webhook, format)
-		if err != nil {
-			return err
-		}
-
-		fmt.Println(msg)
-		return nil
+		return err
 	},
 	Flags: []cli.Flag{
+		&cli.BoolFlag{Name: "json", Usage: "output message object in json"},
 		&cli.BoolFlag{Name: "format", Usage: "format output"},
 		&cli.BoolFlag{Name: "no-redact", Usage: "don't redact sensitive data, e.g. webhook token"},
 	},
