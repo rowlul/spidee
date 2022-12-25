@@ -97,7 +97,7 @@ var ModifyCommand = cli.Command{
 			Name:    "payload",
 			Usage:   "raw json payload",
 			Aliases: []string{"p"}},
-		&cli.BoolFlag{Name: "json", Usage: "output message object in json"},
+		&cli.BoolFlag{Name: "json", Usage: "output webhook object in json"},
 		&cli.BoolFlag{Name: "format", Usage: "format output"},
 	},
 }

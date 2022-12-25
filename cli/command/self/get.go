@@ -36,7 +36,7 @@ var GetCommand = cli.Command{
 		return err
 	},
 	Flags: []cli.Flag{
-		&cli.BoolFlag{Name: "json", Usage: "output message object in json"},
+		&cli.BoolFlag{Name: "json", Usage: "output webhook object in json"},
 		&cli.BoolFlag{Name: "format", Usage: "format output"},
 		&cli.BoolFlag{Name: "no-redact", Usage: "don't redact sensitive data, e.g. webhook token"},
 	},
