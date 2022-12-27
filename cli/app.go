@@ -2,6 +2,7 @@ package cli
 
 import (
 	"github.com/rowlul/spidee/cli/command"
+	"github.com/rowlul/spidee/cli/command/self"
 	"github.com/urfave/cli/v2"
 )
 
@@ -30,6 +31,7 @@ func NewApp() *cli.App {
 			&command.SendCommand,
 			&command.EditCommand,
 			&command.DeleteCommand,
+			&self.SelfCommand,
 		},
 		DisableSliceFlagSeparator: true,
 	}
