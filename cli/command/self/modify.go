@@ -66,6 +66,9 @@ var ModifyCommand = cli.Command{
 		}
 
 		webhook, err := client.Modify(data)
+		if err != nil {
+			return err
+		}
 
 		if c.Bool("json") {
 			format := c.Bool("format")
@@ -79,7 +82,7 @@ var ModifyCommand = cli.Command{
 			return nil
 		}
 
-		return err
+		return nil
 	},
 	Flags: []cli.Flag{
 		&cli.StringFlag{

@@ -134,7 +134,11 @@ var SendCommand = cli.Command{
 		}
 
 		err = client.Execute(data)
-		return err
+		if err != nil {
+			return err
+		}
+
+		return nil
 	},
 	Flags: []cli.Flag{
 		&cli.StringFlag{

@@ -107,6 +107,10 @@ var EditCommand = cli.Command{
 			data,
 		)
 
+		if err != nil {
+			return err
+		}
+
 		if c.Bool("json") {
 			format := c.Bool("format")
 
@@ -119,7 +123,7 @@ var EditCommand = cli.Command{
 			return nil
 		}
 
-		return err
+		return nil
 	},
 	Flags: []cli.Flag{
 		&cli.StringFlag{

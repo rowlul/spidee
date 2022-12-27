@@ -24,6 +24,10 @@ var DeleteCommand = cli.Command{
 		}
 
 		err = client.DeleteMessage(discord.MessageID(messageId))
-		return err
+		if err != nil {
+			return err
+		}
+
+		return nil
 	},
 }

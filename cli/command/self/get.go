@@ -17,6 +17,9 @@ var GetCommand = cli.Command{
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
 
 		webhook, err := client.Get()
+		if err != nil {
+			return err
+		}
 
 		if c.Bool("json") {
 			if !c.Bool("no-redact") {
@@ -33,7 +36,7 @@ var GetCommand = cli.Command{
 			return nil
 		}
 
-		return err
+		return nil
 	},
 	Flags: []cli.Flag{
 		&cli.BoolFlag{Name: "json", Usage: "output webhook object in json"},

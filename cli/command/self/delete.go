@@ -12,7 +12,12 @@ var DeleteCommand = cli.Command{
 	Aliases: []string{"d"},
 	Action: func(c *cli.Context) error {
 		client := *webhook.New(discord.WebhookID(c.Int("id")), c.String("token"))
+
 		err := client.Delete()
-		return err
+		if err != nil {
+			return err
+		}
+
+		return nil
 	},
 }
