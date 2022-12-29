@@ -8,6 +8,9 @@
 *.so
 *.dylib
 
+# Makefile build directory
+build/
+
 # GoReleaser artifact directory
 dist/
 
