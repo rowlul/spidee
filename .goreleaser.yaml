@@ -21,6 +21,8 @@ archives:
         format: zip
 checksum:
   disable: true
+release:
+  draft: true
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 changelog:
