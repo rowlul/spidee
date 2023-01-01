@@ -21,6 +21,7 @@ vet:
 
 clean:
 	@rm -rf build
+	@rm -rf dist
 	@go clean
 
 .PHONY: build
