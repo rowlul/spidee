@@ -2,8 +2,8 @@ package command
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
@@ -46,7 +46,7 @@ var SendCommand = cli.Command{
 					return nil
 				}
 			} else if c.Bool("json") {
-				log.Fatalln("error: must wait for message before output (use --wait)")
+				return errors.New("must wait for message before output (use --wait)")
 			}
 
 			err := client.Execute(data)
@@ -76,7 +76,7 @@ var SendCommand = cli.Command{
 					return nil
 				}
 			} else if c.Bool("json") {
-				log.Fatalln("error: must wait for message before output (use --wait)")
+				return errors.New("must wait for message before output (use --wait)")
 			}
 
 			err := client.Execute(data)
@@ -86,18 +86,17 @@ var SendCommand = cli.Command{
 		if len(c.String("content")) == 0 &&
 			len(c.StringSlice("file")) == 0 &&
 			!c.Bool("embed") {
-			cli.ShowSubcommandHelp(c)
-			log.Fatalln("error: no content, file, or embed supplied")
+			return errors.New("no content, file, or embed supplied")
 		}
 
 		files, err := util.BuildFilesFromContext(c)
 		if err != nil {
-			log.Fatalln(util.FormatFileError(err))
+			return err
 		}
 
 		embeds, err := util.BuildEmbedsFromContext(c)
 		if err != nil {
-			log.Fatalln(util.FormatEmbedError(err))
+			return err
 		}
 
 		data := webhook.ExecuteData{
@@ -130,7 +129,7 @@ var SendCommand = cli.Command{
 				return nil
 			}
 		} else if c.Bool("json") {
-			log.Fatalln("error: must wait for message before output (use --wait)")
+			return errors.New("must wait for message before output (use --wait)")
 		}
 
 		err = client.Execute(data)

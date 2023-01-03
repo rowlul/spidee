@@ -9,8 +9,6 @@ import (
 )
 
 func main() {
-	log.SetFlags(0)
-
 	app := cli.NewApp()
 
 	if util.IsStdin() {
@@ -19,6 +17,8 @@ func main() {
 
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Fatalln(util.FormatError(err))
+		log.SetFlags(0)
+		log.SetPrefix("error: ")
+		log.Fatal(err)
 	}
 }

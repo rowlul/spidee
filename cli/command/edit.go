@@ -2,8 +2,8 @@ package command
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
@@ -24,8 +24,7 @@ var EditCommand = cli.Command{
 
 		messageId, err := strconv.Atoi(c.Args().First())
 		if err != nil {
-			cli.ShowSubcommandHelp(c)
-			log.Fatalln("error: message id not set or not integer")
+			return errors.New("message id not set or not integer")
 		}
 
 		if util.IsStdin() {
@@ -79,18 +78,17 @@ var EditCommand = cli.Command{
 		if len(c.String("content")) == 0 &&
 			len(c.StringSlice("file")) == 0 &&
 			!c.Bool("embed") {
-			cli.ShowSubcommandHelp(c)
-			log.Fatalln("error: no content, file, or embed supplied")
+			return errors.New("no content, file, or embed supplied")
 		}
 
 		files, err := util.BuildFilesFromContext(c)
 		if err != nil {
-			log.Fatalln(util.FormatFileError(err))
+			return err
 		}
 
 		embeds, err := util.BuildEmbedsFromContext(c)
 		if err != nil {
-			log.Fatalln(util.FormatEmbedError(err))
+			return err
 		}
 
 		data := webhook.EditMessageData{

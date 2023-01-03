@@ -2,8 +2,8 @@ package self
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
-	"log"
 
 	"github.com/diamondburned/arikawa/v3/api"
 	"github.com/diamondburned/arikawa/v3/api/webhook"
@@ -43,11 +43,9 @@ var ModifyCommand = cli.Command{
 		}
 
 		if len(c.String("username")) == 0 && len(c.String("avatar")) != 0 {
-			cli.ShowSubcommandHelp(c)
-			log.Fatalln("error: username must be supplied along with avatar")
+			return errors.New("username must be supplied along with avatar")
 		} else if len(c.String("username")) == 0 {
-			cli.ShowSubcommandHelp(c)
-			log.Fatalln("error: no username or avatar supplied")
+			return errors.New("no username or avatar supplied")
 		}
 
 		data := api.ModifyWebhookData{
@@ -59,7 +57,7 @@ var ModifyCommand = cli.Command{
 		if len(c.String("avatar")) > 0 {
 			avatar, err := util.BuildImageFromContext(c)
 			if err != nil {
-				log.Fatalln(util.FormatFileError(err))
+				return err
 			}
 
 			data.Avatar = avatar
