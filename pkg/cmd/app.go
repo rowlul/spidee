@@ -31,23 +31,21 @@ func NewApp() *cli.App {
 		Commands: []*cli.Command{
 			NewSendCommand(),
 		},
-		Before:                    before,
+		Before: func(ctx *cli.Context) error {
+			id := discord.WebhookID(ctx.Int(args.FlagId))
+			token := ctx.String(args.FlagToken)
+
+			client := webhook.New(id, token)
+			context.WrapClient(ctx, client)
+
+			return nil
+		},
 		Version:                   Version,
 		DisableSliceFlagSeparator: true,
 		UseShortOptionHandling:    true,
 		HideHelpCommand:           true,
 		CustomAppHelpTemplate:     helpTemplate,
 	}
-}
-
-func before(ctx *cli.Context) error {
-	id := discord.WebhookID(ctx.Int(args.FlagId))
-	token := ctx.String(args.FlagToken)
-
-	client := webhook.New(id, token)
-	context.WrapClient(ctx, client)
-
-	return nil
 }
 
 const helpTemplate string = `{{.Name}} {{if .Version}}{{if not .HideVersion}}{{.Version}}{{end}}{{end}}
