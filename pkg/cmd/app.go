@@ -11,37 +11,33 @@ import (
 var Version string
 
 func NewApp() *cli.App {
-	return app
-}
-
-var app *cli.App = &cli.App{
-	Name:                      "spidee",
-	Usage:                     "Discord webhook CLI",
-	Flags:                     flags,
-	Commands:                  commands,
-	Action:                    action,
-	Version:                   Version,
-	DisableSliceFlagSeparator: true,
-	UseShortOptionHandling:    true,
-	HideHelpCommand:           true,
-	CustomAppHelpTemplate:     helpTemplate,
-}
-
-var commands []*cli.Command = []*cli.Command{}
-
-var flags []cli.Flag = []cli.Flag{
-	&cli.IntFlag{
-		Name:     args.FlagId,
-		Usage:    "webhook id",
-		EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
-		Required: true,
-	},
-	&cli.StringFlag{
-		Name:     args.FlagToken,
-		Usage:    "webhook token",
-		EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
-		Required: true,
-	},
+	return &cli.App{
+		Name:  "spidee",
+		Usage: "Discord webhook CLI",
+		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:     args.FlagId,
+				Usage:    "webhook id",
+				EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
+				Required: true,
+			},
+			&cli.StringFlag{
+				Name:     args.FlagToken,
+				Usage:    "webhook token",
+				EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
+				Required: true,
+			},
+		},
+		Commands: []*cli.Command{
+			NewSendCommand(),
+		},
+		Action:                    action,
+		Version:                   Version,
+		DisableSliceFlagSeparator: true,
+		UseShortOptionHandling:    true,
+		HideHelpCommand:           true,
+		CustomAppHelpTemplate:     helpTemplate,
+	}
 }
 
 func action(ctx *cli.Context) error {
