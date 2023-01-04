@@ -31,7 +31,7 @@ func NewApp() *cli.App {
 		Commands: []*cli.Command{
 			NewSendCommand(),
 		},
-		Action:                    action,
+		Before:                    before,
 		Version:                   Version,
 		DisableSliceFlagSeparator: true,
 		UseShortOptionHandling:    true,
@@ -40,7 +40,7 @@ func NewApp() *cli.App {
 	}
 }
 
-func action(ctx *cli.Context) error {
+func before(ctx *cli.Context) error {
 	id := discord.WebhookID(ctx.Int(args.FlagId))
 	token := ctx.String(args.FlagToken)
 
