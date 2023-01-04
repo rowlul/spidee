@@ -1,6 +1,9 @@
 package cmd
 
 import (
+	"github.com/diamondburned/arikawa/v3/api/webhook"
+	"github.com/diamondburned/arikawa/v3/discord"
+	"github.com/rowlul/spidee/pkg/context"
 	"github.com/urfave/cli/v2"
 )
 
@@ -41,6 +44,12 @@ var flags []cli.Flag = []cli.Flag{
 }
 
 func action(ctx *cli.Context) error {
+	id := discord.WebhookID(ctx.Int("id"))
+	token := ctx.String("token")
+
+	client := webhook.New(id, token)
+	context.WrapClient(ctx, client)
+
 	return nil
 }
 
