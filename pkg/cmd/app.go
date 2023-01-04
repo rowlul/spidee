@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/diamondburned/arikawa/v3/discord"
+	"github.com/rowlul/spidee/pkg/args"
 	"github.com/rowlul/spidee/pkg/context"
 	"github.com/urfave/cli/v2"
 )
@@ -30,13 +31,13 @@ var commands []*cli.Command = []*cli.Command{}
 
 var flags []cli.Flag = []cli.Flag{
 	&cli.IntFlag{
-		Name:     "id",
+		Name:     args.FlagId,
 		Usage:    "webhook id",
 		EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
 		Required: true,
 	},
 	&cli.StringFlag{
-		Name:     "token",
+		Name:     args.FlagToken,
 		Usage:    "webhook token",
 		EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
 		Required: true,
@@ -44,8 +45,8 @@ var flags []cli.Flag = []cli.Flag{
 }
 
 func action(ctx *cli.Context) error {
-	id := discord.WebhookID(ctx.Int("id"))
-	token := ctx.String("token")
+	id := discord.WebhookID(ctx.Int(args.FlagId))
+	token := ctx.String(args.FlagToken)
 
 	client := webhook.New(id, token)
 	context.WrapClient(ctx, client)
