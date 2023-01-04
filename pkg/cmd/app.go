@@ -40,6 +40,13 @@ func NewApp() *cli.App {
 
 			return nil
 		},
+		Action: func(ctx *cli.Context) error {
+			if len(ctx.Args().Slice()) == 0 {
+				cli.ShowAppHelpAndExit(ctx, 0)
+			}
+
+			return nil
+		},
 		Version:                   Version,
 		DisableSliceFlagSeparator: true,
 		UseShortOptionHandling:    true,
