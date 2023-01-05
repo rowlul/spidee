@@ -18,7 +18,7 @@ func NewApp() *cli.App {
 		Name:  "spidee",
 		Usage: "Discord webhook CLI",
 		Flags: []cli.Flag{
-			&cli.IntFlag{
+			&cli.Uint64Flag{
 				Name:     args.FlagId,
 				Usage:    "webhook id",
 				EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
@@ -35,7 +35,7 @@ func NewApp() *cli.App {
 			NewSendCommand(),
 		},
 		Before: func(ctx *cli.Context) error {
-			id := discord.WebhookID(ctx.Int(args.FlagId))
+			id := discord.WebhookID(ctx.Uint64(args.FlagId))
 			token := ctx.String(args.FlagToken)
 
 			client := webhook.New(id, token)
