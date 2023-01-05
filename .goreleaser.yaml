@@ -1,7 +1,4 @@
 project_name: spidee
-before:
-  hooks:
-    - go mod tidy
 builds:
   - env:
       - CGO_ENABLED=0
@@ -24,11 +21,3 @@ checksum:
   disable: true
 release:
   draft: true
-snapshot:
-  name_template: "{{ incpatch .Version }}-next"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - '^docs:'
-      - '^test:'
