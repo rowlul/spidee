@@ -1,6 +1,9 @@
 package cmd
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/rowlul/spidee/pkg/args"
@@ -40,12 +43,10 @@ func NewApp() *cli.App {
 
 			return nil
 		},
-		Action: func(ctx *cli.Context) error {
-			if len(ctx.Args().Slice()) == 0 {
-				cli.ShowAppHelpAndExit(ctx, 0)
-			}
-
-			return nil
+		CommandNotFound: func(ctx *cli.Context, s string) {
+			cli.ShowAppHelp(ctx)
+			fmt.Fprintln(os.Stderr, "no matching command:", s)
+			os.Exit(1)
 		},
 		Version:                   Version,
 		DisableSliceFlagSeparator: true,
