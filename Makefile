@@ -1,6 +1,6 @@
 BINARY = spidee
 VERSION = $(shell git describe HEAD)
-LDFLAGS = -X 'github.com/rowlul/spidee/pkg/cmd.Version=$(VERSION)' -s -w
+LDFLAGS = -X 'github.com/rowlul/spidee/internal/cmd.Version=$(VERSION)' -s -w
 
 all: test fmt vet clean build
 

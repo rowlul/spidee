@@ -1,4 +1,4 @@
-package pkg
+package internal
 
 import "github.com/urfave/cli/v2"
 

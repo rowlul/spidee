@@ -7,31 +7,31 @@ import (
 	"strings"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
-	"github.com/rowlul/spidee/pkg"
-	"github.com/rowlul/spidee/pkg/context"
-	"github.com/rowlul/spidee/pkg/vt"
+	"github.com/rowlul/spidee/internal"
+	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
 
 func NewSendCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:   pkg.CommandSend,
+		Name:   internal.CommandSend,
 		Usage:  "Send webhook message",
 		Before: beforeSend,
 		Action: actionSend,
 		Flags: []cli.Flag{
-			&cli.StringFlag{Name: pkg.FlagContent, Usage: "plain text", Aliases: []string{"c"}},
-			&cli.StringFlag{Name: pkg.FlagUsername, Usage: "webhook username", Aliases: []string{"u"}},
-			&cli.StringFlag{Name: pkg.FlagAvatarURL, Usage: "webhook avatar url", Aliases: []string{"a"}},
-			&cli.BoolFlag{Name: pkg.FlagTTS, Usage: "narrate message"},
-			&cli.StringSliceFlag{Name: pkg.FlagFile, Usage: "webhook attachment", Aliases: []string{"f"}, TakesFile: true},
-			&cli.StringFlag{Name: pkg.FlagPayload, Usage: "raw json payload"},
-			&cli.BoolFlag{Name: pkg.FlagWait, Usage: "wait for message to be created", Aliases: []string{"w"}},
-			&cli.BoolFlag{Name: pkg.FlagJSON, Usage: "return JSON message object"},
+			&cli.StringFlag{Name: internal.FlagContent, Usage: "plain text", Aliases: []string{"c"}},
+			&cli.StringFlag{Name: internal.FlagUsername, Usage: "webhook username", Aliases: []string{"u"}},
+			&cli.StringFlag{Name: internal.FlagAvatarURL, Usage: "webhook avatar url", Aliases: []string{"a"}},
+			&cli.BoolFlag{Name: internal.FlagTTS, Usage: "narrate message"},
+			&cli.StringSliceFlag{Name: internal.FlagFile, Usage: "webhook attachment", Aliases: []string{"f"}, TakesFile: true},
+			&cli.StringFlag{Name: internal.FlagPayload, Usage: "raw json payload"},
+			&cli.BoolFlag{Name: internal.FlagWait, Usage: "wait for message to be created", Aliases: []string{"w"}},
+			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},
 	}
 
-	cmd.Flags = append(cmd.Flags, pkg.EmbedFlags...)
+	cmd.Flags = append(cmd.Flags, internal.EmbedFlags...)
 
 	return cmd
 }
@@ -41,7 +41,7 @@ func beforeSend(ctx *cli.Context) error {
 		return err
 	}
 
-	if !ctx.Bool(pkg.FlagWait) && ctx.Bool(pkg.FlagJSON) {
+	if !ctx.Bool(internal.FlagWait) && ctx.Bool(internal.FlagJSON) {
 		return errors.New("must wait for message before output (use --wait)")
 	}
 
@@ -53,9 +53,9 @@ func actionSend(ctx *cli.Context) error {
 
 	var data webhook.ExecuteData
 	var (
-		content = ctx.String(pkg.FlagContent)
-		payload = ctx.String(pkg.FlagPayload)
-		wait    = ctx.Bool(pkg.FlagWait)
+		content = ctx.String(internal.FlagContent)
+		payload = ctx.String(internal.FlagPayload)
+		wait    = ctx.Bool(internal.FlagWait)
 	)
 
 	if vt.IsStdin() {
@@ -74,9 +74,9 @@ func actionSend(ctx *cli.Context) error {
 		}
 
 		var (
-			username  = ctx.String(pkg.FlagUsername)
-			avatarUrl = ctx.String(pkg.FlagAvatarURL)
-			tts       = ctx.Bool(pkg.FlagTTS)
+			username  = ctx.String(internal.FlagUsername)
+			avatarUrl = ctx.String(internal.FlagAvatarURL)
+			tts       = ctx.Bool(internal.FlagTTS)
 		)
 
 		data = webhook.ExecuteData{
@@ -109,7 +109,7 @@ func actionSend(ctx *cli.Context) error {
 			return err
 		}
 
-		if ctx.Bool(pkg.FlagJSON) {
+		if ctx.Bool(internal.FlagJSON) {
 			json, err := json.Marshal(message)
 			if err != nil {
 				return err

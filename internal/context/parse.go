@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/rowlul/spidee/pkg/vt"
+	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
 

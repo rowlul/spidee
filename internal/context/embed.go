@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/diamondburned/arikawa/v3/discord"
-	"github.com/rowlul/spidee/pkg"
+	"github.com/rowlul/spidee/internal"
 	"github.com/urfave/cli/v2"
 )
 
@@ -21,7 +21,7 @@ func AnyEmbedFlag(ctx *cli.Context) bool {
 }
 
 func EmbedTimestamp(ctx *cli.Context) (discord.Timestamp, error) {
-	timestamp := ctx.String(pkg.FlagEmbedTimestamp)
+	timestamp := ctx.String(internal.FlagEmbedTimestamp)
 
 	if timestamp == "now" {
 		return discord.NowTimestamp(), nil
@@ -33,7 +33,7 @@ func EmbedTimestamp(ctx *cli.Context) (discord.Timestamp, error) {
 
 func EmbedFields(ctx *cli.Context) ([]discord.EmbedField, error) {
 	var fields []discord.EmbedField
-	for _, f := range ctx.StringSlice(pkg.FlagEmbedField) {
+	for _, f := range ctx.StringSlice(internal.FlagEmbedField) {
 		field := strings.Split(f, ",")
 
 		var inline bool
@@ -55,19 +55,19 @@ func EmbedFields(ctx *cli.Context) ([]discord.EmbedField, error) {
 func Embeds(ctx *cli.Context) ([]discord.Embed, error) {
 	var embeds []discord.Embed
 
-	title := ctx.String(pkg.FlagEmbedTitle)
-	description := ctx.String(pkg.FlagEmbedDescription)
-	url := ctx.String(pkg.FlagEmbedURL)
-	color := discord.Color(ctx.Int(pkg.FlagEmbedColor))
-	footer := &discord.EmbedFooter{Text: ctx.String(pkg.FlagEmbedFooterText), Icon: ctx.String(pkg.FlagEmbedFooterIcon)}
-	image := &discord.EmbedImage{URL: ctx.String(pkg.FlagEmbedImageURL)}
-	thumbnail := &discord.EmbedThumbnail{URL: ctx.String(pkg.FlagEmbedThumbnailURL)}
-	video := &discord.EmbedVideo{URL: ctx.String(pkg.FlagEmbedVideoURL)}
-	provider := &discord.EmbedProvider{Name: ctx.String(pkg.FlagEmbedProviderName), URL: ctx.String(pkg.FlagEmbedProviderURL)}
-	author := &discord.EmbedAuthor{Name: ctx.String(pkg.FlagEmbedAuthorName), URL: ctx.String(pkg.FlagEmbedAuthorURL), Icon: ctx.String(pkg.FlagEmbedAuthorIcon)}
+	title := ctx.String(internal.FlagEmbedTitle)
+	description := ctx.String(internal.FlagEmbedDescription)
+	url := ctx.String(internal.FlagEmbedURL)
+	color := discord.Color(ctx.Int(internal.FlagEmbedColor))
+	footer := &discord.EmbedFooter{Text: ctx.String(internal.FlagEmbedFooterText), Icon: ctx.String(internal.FlagEmbedFooterIcon)}
+	image := &discord.EmbedImage{URL: ctx.String(internal.FlagEmbedImageURL)}
+	thumbnail := &discord.EmbedThumbnail{URL: ctx.String(internal.FlagEmbedThumbnailURL)}
+	video := &discord.EmbedVideo{URL: ctx.String(internal.FlagEmbedVideoURL)}
+	provider := &discord.EmbedProvider{Name: ctx.String(internal.FlagEmbedProviderName), URL: ctx.String(internal.FlagEmbedProviderURL)}
+	author := &discord.EmbedAuthor{Name: ctx.String(internal.FlagEmbedAuthorName), URL: ctx.String(internal.FlagEmbedAuthorURL), Icon: ctx.String(internal.FlagEmbedAuthorIcon)}
 
 	timestamp, err := EmbedTimestamp(ctx)
-	if ctx.String(pkg.FlagEmbedTimestamp) != "" && err != nil {
+	if ctx.String(internal.FlagEmbedTimestamp) != "" && err != nil {
 		return nil, err
 	}
 

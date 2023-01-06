@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/rowlul/spidee/pkg/cmd"
+	"github.com/rowlul/spidee/internal/cmd"
 )
 
 func main() {

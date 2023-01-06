@@ -2,14 +2,14 @@ package cmd
 
 import (
 	"github.com/diamondburned/arikawa/v3/discord"
-	"github.com/rowlul/spidee/pkg"
-	"github.com/rowlul/spidee/pkg/context"
+	"github.com/rowlul/spidee/internal"
+	"github.com/rowlul/spidee/internal/context"
 	"github.com/urfave/cli/v2"
 )
 
 func NewDeleteCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:      pkg.CommandDelete,
+		Name:      internal.CommandDelete,
 		Usage:     "Delete webhook message",
 		ArgsUsage: "<message id>",
 		Action:    actionDelete,

@@ -6,10 +6,10 @@ import (
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/diamondburned/arikawa/v3/discord"
-	"github.com/rowlul/spidee/pkg"
-	"github.com/rowlul/spidee/pkg/cmd/self"
-	"github.com/rowlul/spidee/pkg/context"
-	"github.com/rowlul/spidee/pkg/vt"
+	"github.com/rowlul/spidee/internal"
+	"github.com/rowlul/spidee/internal/cmd/self"
+	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
 
@@ -21,13 +21,13 @@ func NewApp() *cli.App {
 		Usage: "Discord webhook CLI",
 		Flags: []cli.Flag{
 			&cli.Uint64Flag{
-				Name:     pkg.FlagId,
+				Name:     internal.FlagId,
 				Usage:    "webhook id",
 				EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
 				Required: true,
 			},
 			&cli.StringFlag{
-				Name:     pkg.FlagToken,
+				Name:     internal.FlagToken,
 				Usage:    "webhook token",
 				EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
 				Required: true,
@@ -49,15 +49,15 @@ func NewApp() *cli.App {
 	}
 
 	if vt.IsStdin() {
-		app.DefaultCommand = pkg.CommandSend
+		app.DefaultCommand = internal.CommandSend
 	}
 
 	return app
 }
 
 func before(ctx *cli.Context) error {
-	id := discord.WebhookID(ctx.Uint64(pkg.FlagId))
-	token := ctx.String(pkg.FlagToken)
+	id := discord.WebhookID(ctx.Uint64(internal.FlagId))
+	token := ctx.String(internal.FlagToken)
 
 	client := webhook.New(id, token)
 	context.WrapClient(ctx, client)

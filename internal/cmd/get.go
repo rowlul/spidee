@@ -5,19 +5,19 @@ import (
 	"fmt"
 
 	"github.com/diamondburned/arikawa/v3/discord"
-	"github.com/rowlul/spidee/pkg"
-	"github.com/rowlul/spidee/pkg/context"
+	"github.com/rowlul/spidee/internal"
+	"github.com/rowlul/spidee/internal/context"
 	"github.com/urfave/cli/v2"
 )
 
 func NewGetCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:      pkg.CommandGet,
+		Name:      internal.CommandGet,
 		Usage:     "Get message by specified id",
 		ArgsUsage: "<message id>",
 		Action:    actionGet,
 		Flags: []cli.Flag{
-			&cli.BoolFlag{Name: pkg.FlagJSON, Usage: "return JSON message object"},
+			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},
 	}
 
@@ -38,7 +38,7 @@ func actionGet(ctx *cli.Context) error {
 		return err
 	}
 
-	if ctx.Bool(pkg.FlagJSON) {
+	if ctx.Bool(internal.FlagJSON) {
 		json, err := json.Marshal(message)
 		if err != nil {
 			return err
