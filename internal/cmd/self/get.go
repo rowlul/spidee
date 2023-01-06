@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/rowlul/spidee/internal"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/urfave/cli/v2"
 )
 
@@ -23,7 +23,7 @@ func NewGetCommand() *cli.Command {
 }
 
 func actionGet(ctx *cli.Context) error {
-	client := context.UnwrapClient(ctx)
+	client := cmdcontext.UnwrapClient(ctx)
 
 	webhook, err := client.Get()
 	if err != nil {

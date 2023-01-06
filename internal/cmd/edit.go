@@ -9,7 +9,7 @@ import (
 	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/diamondburned/arikawa/v3/utils/json/option"
 	"github.com/rowlul/spidee/internal"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
@@ -35,7 +35,7 @@ func NewEditCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
-	if err := context.EnsureFlags(ctx); err != nil {
+	if err := cmdcontext.EnsureFlags(ctx); err != nil {
 		return err
 	}
 
@@ -43,9 +43,9 @@ func beforeEdit(ctx *cli.Context) error {
 }
 
 func actionEdit(ctx *cli.Context) error {
-	client := context.UnwrapClient(ctx)
+	client := cmdcontext.UnwrapClient(ctx)
 
-	arg, err := context.Uint64Arg(ctx)
+	arg, err := cmdcontext.Uint64Arg(ctx)
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func actionEdit(ctx *cli.Context) error {
 	}
 
 	if payload == "" {
-		files, err := context.Files(ctx)
+		files, err := cmdcontext.Files(ctx)
 		if err != nil {
 			return err
 		}
@@ -78,8 +78,8 @@ func actionEdit(ctx *cli.Context) error {
 			Files:   files,
 		}
 
-		if context.AnyEmbedFlag(ctx) {
-			embeds, err := context.Embeds(ctx)
+		if cmdcontext.AnyEmbedFlag(ctx) {
+			embeds, err := cmdcontext.Embeds(ctx)
 			if err != nil {
 				return err
 			}

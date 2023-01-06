@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/rowlul/spidee/internal"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/urfave/cli/v2"
 )
 
@@ -19,9 +19,9 @@ func NewDeleteCommand() *cli.Command {
 }
 
 func actionDelete(ctx *cli.Context) error {
-	client := context.UnwrapClient(ctx)
+	client := cmdcontext.UnwrapClient(ctx)
 
-	arg, err := context.Uint64Arg(ctx)
+	arg, err := cmdcontext.Uint64Arg(ctx)
 	if err != nil {
 		return err
 	}

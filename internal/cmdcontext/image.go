@@ -1,4 +1,4 @@
-package context
+package cmdcontext
 
 import (
 	"encoding/base64"

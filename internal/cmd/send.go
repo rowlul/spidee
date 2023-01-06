@@ -8,7 +8,7 @@ import (
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/rowlul/spidee/internal"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
@@ -37,7 +37,7 @@ func NewSendCommand() *cli.Command {
 }
 
 func beforeSend(ctx *cli.Context) error {
-	if err := context.EnsureFlags(ctx); err != nil {
+	if err := cmdcontext.EnsureFlags(ctx); err != nil {
 		return err
 	}
 
@@ -49,7 +49,7 @@ func beforeSend(ctx *cli.Context) error {
 }
 
 func actionSend(ctx *cli.Context) error {
-	client := context.UnwrapClient(ctx)
+	client := cmdcontext.UnwrapClient(ctx)
 
 	var data webhook.ExecuteData
 	var (
@@ -68,7 +68,7 @@ func actionSend(ctx *cli.Context) error {
 	}
 
 	if payload == "" {
-		files, err := context.Files(ctx)
+		files, err := cmdcontext.Files(ctx)
 		if err != nil {
 			return err
 		}
@@ -87,8 +87,8 @@ func actionSend(ctx *cli.Context) error {
 			Files:     files,
 		}
 
-		if context.AnyEmbedFlag(ctx) {
-			embeds, err := context.Embeds(ctx)
+		if cmdcontext.AnyEmbedFlag(ctx) {
+			embeds, err := cmdcontext.Embeds(ctx)
 			if err != nil {
 				return err
 			}

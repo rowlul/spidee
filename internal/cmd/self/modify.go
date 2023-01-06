@@ -8,7 +8,7 @@ import (
 
 	"github.com/diamondburned/arikawa/v3/api"
 	"github.com/rowlul/spidee/internal"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
@@ -31,7 +31,7 @@ func NewModifyCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
-	if err := context.EnsureFlags(ctx); err != nil {
+	if err := cmdcontext.EnsureFlags(ctx); err != nil {
 		return err
 	}
 
@@ -43,7 +43,7 @@ func beforeEdit(ctx *cli.Context) error {
 }
 
 func actionEdit(ctx *cli.Context) error {
-	client := context.UnwrapClient(ctx)
+	client := cmdcontext.UnwrapClient(ctx)
 
 	var data api.ModifyWebhookData
 
@@ -56,7 +56,7 @@ func actionEdit(ctx *cli.Context) error {
 	}
 
 	if payload == "" {
-		avatar, err := context.Image(ctx)
+		avatar, err := cmdcontext.Image(ctx)
 		if ctx.String(internal.FlagAvatar) != "" && err != nil {
 			return err
 		}

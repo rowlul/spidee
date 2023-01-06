@@ -2,7 +2,7 @@ package self
 
 import (
 	"github.com/rowlul/spidee/internal"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/urfave/cli/v2"
 )
 
@@ -17,6 +17,6 @@ func NewDeleteCommand() *cli.Command {
 }
 
 func actionDelete(ctx *cli.Context) error {
-	client := context.UnwrapClient(ctx)
+	client := cmdcontext.UnwrapClient(ctx)
 	return client.Delete()
 }

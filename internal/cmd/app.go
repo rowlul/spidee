@@ -8,7 +8,7 @@ import (
 	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/rowlul/spidee/internal"
 	"github.com/rowlul/spidee/internal/cmd/self"
-	"github.com/rowlul/spidee/internal/context"
+	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
@@ -60,7 +60,7 @@ func before(ctx *cli.Context) error {
 	token := ctx.String(internal.FlagToken)
 
 	client := webhook.New(id, token)
-	context.WrapClient(ctx, client)
+	cmdcontext.WrapClient(ctx, client)
 
 	return nil
 }
