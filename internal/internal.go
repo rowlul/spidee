@@ -3,6 +3,15 @@ package internal
 import "github.com/urfave/cli/v2"
 
 const (
+	CommandSend   = "send"
+	CommandEdit   = "edit"
+	CommandDelete = "delete"
+	CommandGet    = "get"
+	CommandSelf   = "self"
+	CommandModify = "modify"
+)
+
+const (
 	FlagId    = "id"
 	FlagToken = "token"
 )
@@ -11,18 +20,12 @@ const (
 	FlagContent   = "content"
 	FlagUsername  = "username"
 	FlagAvatarURL = "avatar-url"
+	FlagAvatar    = "avatar"
 	FlagTTS       = "tts"
 	FlagFile      = "file"
-)
-
-const (
-	FlagPayload = "payload"
-	FlagWait    = "wait"
-	FlagJSON    = "json"
-)
-
-const (
-	FlagAvatar = "avatar"
+	FlagPayload   = "payload"
+	FlagWait      = "wait"
+	FlagJSON      = "json"
 )
 
 const (
