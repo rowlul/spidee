@@ -6,26 +6,28 @@ import (
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/diamondburned/arikawa/v3/discord"
-	"github.com/rowlul/spidee/pkg/args"
+	"github.com/rowlul/spidee/pkg"
+	"github.com/rowlul/spidee/pkg/cmd/self"
 	"github.com/rowlul/spidee/pkg/context"
+	"github.com/rowlul/spidee/pkg/vt"
 	"github.com/urfave/cli/v2"
 )
 
 var Version string
 
 func NewApp() *cli.App {
-	return &cli.App{
+	app := &cli.App{
 		Name:  "spidee",
 		Usage: "Discord webhook CLI",
 		Flags: []cli.Flag{
 			&cli.Uint64Flag{
-				Name:     args.FlagId,
+				Name:     pkg.FlagId,
 				Usage:    "webhook id",
 				EnvVars:  []string{"SPIDEE_WEBHOOK_ID"},
 				Required: true,
 			},
 			&cli.StringFlag{
-				Name:     args.FlagToken,
+				Name:     pkg.FlagToken,
 				Usage:    "webhook token",
 				EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
 				Required: true,
@@ -33,44 +35,38 @@ func NewApp() *cli.App {
 		},
 		Commands: []*cli.Command{
 			NewSendCommand(),
+			NewEditCommand(),
+			NewDeleteCommand(),
+			NewGetCommand(),
+			self.NewSelfCommand(),
 		},
-		Before: func(ctx *cli.Context) error {
-			id := discord.WebhookID(ctx.Uint64(args.FlagId))
-			token := ctx.String(args.FlagToken)
-
-			client := webhook.New(id, token)
-			context.WrapClient(ctx, client)
-
-			return nil
-		},
-		CommandNotFound: func(ctx *cli.Context, s string) {
-			cli.ShowAppHelp(ctx)
-			fmt.Fprintln(os.Stderr, "no matching command:", s)
-			os.Exit(1)
-		},
+		Before:                    before,
+		CommandNotFound:           cmdNotFound,
 		Version:                   Version,
 		DisableSliceFlagSeparator: true,
 		UseShortOptionHandling:    true,
 		HideHelpCommand:           true,
-		CustomAppHelpTemplate:     helpTemplate,
 	}
+
+	if vt.IsStdin() {
+		app.DefaultCommand = pkg.CommandSend
+	}
+
+	return app
 }
 
-const helpTemplate string = `{{.Name}} {{if .Version}}{{if not .HideVersion}}{{.Version}}{{end}}{{end}}
-{{if .Usage}}{{.Usage}}{{end}}
+func before(ctx *cli.Context) error {
+	id := discord.WebhookID(ctx.Uint64(pkg.FlagId))
+	token := ctx.String(pkg.FlagToken)
 
-Usage:
-{{"\t\t"}}{{if .UsageText}}{{.UsageText}}{{else}}{{.HelpName}}{{if .Commands}} command [subcommand] [command options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[arguments...]{{end}}{{end}}{{if .Description}}
+	client := webhook.New(id, token)
+	context.WrapClient(ctx, client)
 
-Description:
-{{"\t\t"}}{{.Description | nindent 3 | trim}}{{end}}{{if .VisibleCommands}}
+	return nil
+}
 
-Commands:{{range .VisibleCategories}}{{if .Name}}
-{{.Name}}:{{range .VisibleCommands}}
-{{join .Names ", "}}{{"\t\t"}}{{.Usage}}{{end}}{{else}}{{range .VisibleCommands}}
-{{"\t\t"}}{{join .Names ", "}}{{"\t\t"}}{{.Usage}}{{end}}{{end}}{{end}}{{end}}{{if .VisibleFlags}}
-
-Options:
-{{"\t\t"}}{{range $index, $option := .VisibleFlags}}{{if $index}}
-{{"\t\t"}}{{end}}{{$option}}{{end}}{{end}}
-`
+func cmdNotFound(ctx *cli.Context, s string) {
+	cli.ShowAppHelp(ctx)
+	fmt.Fprintln(os.Stderr, "no matching command:", s)
+	os.Exit(1)
+}
