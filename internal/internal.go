@@ -26,6 +26,7 @@ const (
 	FlagPayload   = "payload"
 	FlagWait      = "wait"
 	FlagJSON      = "json"
+	FlagNoRedact  = "no-redact"
 )
 
 const (
