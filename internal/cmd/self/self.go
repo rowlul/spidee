@@ -15,6 +15,7 @@ func NewSelfCommand() *cli.Command {
 			NewModifyCommand(),
 			NewDeleteCommand(),
 		},
+		HideHelpCommand: true,
 	}
 
 	return cmd

@@ -27,6 +27,7 @@ func NewModifyCommand() *cli.Command {
 			&cli.StringFlag{Name: internal.FlagPayload, Usage: "raw json payload"},
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},
+		HideHelpCommand: true,
 	}
 
 	return cmd

@@ -29,6 +29,7 @@ func NewEditCommand() *cli.Command {
 			&cli.StringFlag{Name: internal.FlagPayload, Usage: "raw json payload"},
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},
+		HideHelpCommand: true,
 	}
 
 	cmd.Flags = append(cmd.Flags, internal.EmbedFlags...)

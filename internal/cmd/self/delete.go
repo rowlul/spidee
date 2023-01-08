@@ -8,10 +8,11 @@ import (
 
 func NewDeleteCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:         internal.CommandDelete,
-		Usage:        "Delete webhook",
-		Action:       actionDelete,
-		OnUsageError: usageError,
+		Name:            internal.CommandDelete,
+		Usage:           "Delete webhook",
+		Action:          actionDelete,
+		OnUsageError:    usageError,
+		HideHelpCommand: true,
 	}
 
 	return cmd

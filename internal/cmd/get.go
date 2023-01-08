@@ -20,6 +20,7 @@ func NewGetCommand() *cli.Command {
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},
+		HideHelpCommand: true,
 	}
 
 	return cmd

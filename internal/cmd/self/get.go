@@ -19,6 +19,7 @@ func NewGetCommand() *cli.Command {
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 			&cli.BoolFlag{Name: "no-redact", Usage: "don't redact sensitive data, e.g. webhook token"},
 		},
+		HideHelpCommand: true,
 	}
 
 	return cmd

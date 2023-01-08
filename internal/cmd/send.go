@@ -31,6 +31,7 @@ func NewSendCommand() *cli.Command {
 			&cli.BoolFlag{Name: internal.FlagWait, Usage: "wait for message to be created", Aliases: []string{"w"}},
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},
+		HideHelpCommand: true,
 	}
 
 	cmd.Flags = append(cmd.Flags, internal.EmbedFlags...)
