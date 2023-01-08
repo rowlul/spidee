@@ -37,6 +37,15 @@ func NewEditCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
+	if vt.IsStdin() {
+		input := strings.Join(vt.ReadStdin(), "\n")
+		if json.Valid([]byte(input)) {
+			ctx.Set(internal.FlagPayload, input)
+		} else {
+			ctx.Set(internal.FlagContent, input)
+		}
+	}
+
 	ignoredFlags := []string{
 		internal.FlagJSON, internal.FlagEmbedURL, internal.FlagEmbedColor, internal.FlagEmbedTimestamp, internal.FlagEmbedAuthorURL,
 		"eu", "ec", "et", "eau",
@@ -65,15 +74,6 @@ func actionEdit(ctx *cli.Context) error {
 		content = ctx.String(internal.FlagContent)
 		payload = ctx.String(internal.FlagPayload)
 	)
-
-	if vt.IsStdin() {
-		input := strings.Join(vt.ReadStdin(), "\n")
-		if json.Valid([]byte(input)) {
-			payload = input
-		} else {
-			content = input
-		}
-	}
 
 	if payload == "" {
 		files, err := cmdcontext.Files(ctx)

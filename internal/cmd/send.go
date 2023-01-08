@@ -38,6 +38,15 @@ func NewSendCommand() *cli.Command {
 }
 
 func beforeSend(ctx *cli.Context) error {
+	if vt.IsStdin() {
+		input := strings.Join(vt.ReadStdin(), "\n")
+		if json.Valid([]byte(input)) {
+			ctx.Set(internal.FlagPayload, input)
+		} else {
+			ctx.Set(internal.FlagContent, input)
+		}
+	}
+
 	ignoredFlags := []string{
 		internal.FlagUsername, internal.FlagAvatarURL, internal.FlagTTS, internal.FlagWait, internal.FlagJSON,
 		internal.FlagEmbedURL, internal.FlagEmbedColor, internal.FlagEmbedTimestamp, internal.FlagEmbedAuthorURL,
@@ -66,15 +75,6 @@ func actionSend(ctx *cli.Context) error {
 		payload = ctx.String(internal.FlagPayload)
 		wait    = ctx.Bool(internal.FlagWait)
 	)
-
-	if vt.IsStdin() {
-		input := strings.Join(vt.ReadStdin(), "\n")
-		if json.Valid([]byte(input)) {
-			payload = input
-		} else {
-			content = input
-		}
-	}
 
 	if payload == "" {
 		files, err := cmdcontext.Files(ctx)

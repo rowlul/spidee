@@ -32,6 +32,11 @@ func NewModifyCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
+	if vt.IsStdin() {
+		input := strings.Join(vt.ReadStdin(), "\n")
+		ctx.Set(internal.FlagPayload, input)
+	}
+
 	ignoredFlags := []string{
 		internal.FlagJSON,
 	}
@@ -55,12 +60,6 @@ func actionEdit(ctx *cli.Context) error {
 	var data api.ModifyWebhookData
 
 	payload := ctx.String(internal.FlagPayload)
-	if vt.IsStdin() {
-		input := strings.Join(vt.ReadStdin(), "\n")
-		if json.Valid([]byte(input)) {
-			payload = input
-		}
-	}
 
 	if payload == "" {
 		avatar, err := cmdcontext.Image(ctx)
