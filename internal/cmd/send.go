@@ -15,10 +15,11 @@ import (
 
 func NewSendCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:   internal.CommandSend,
-		Usage:  "Send webhook message",
-		Before: beforeSend,
-		Action: actionSend,
+		Name:         internal.CommandSend,
+		Usage:        "Send webhook message",
+		Before:       beforeSend,
+		Action:       actionSend,
+		OnUsageError: usageError,
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: internal.FlagContent, Usage: "plain text", Aliases: []string{"c"}},
 			&cli.StringFlag{Name: internal.FlagUsername, Usage: "webhook username", Aliases: []string{"u"}},
@@ -37,11 +38,19 @@ func NewSendCommand() *cli.Command {
 }
 
 func beforeSend(ctx *cli.Context) error {
-	if err := cmdcontext.EnsureFlags(ctx); err != nil {
-		return err
+	ignoredFlags := []string{
+		internal.FlagUsername, internal.FlagAvatarURL, internal.FlagTTS, internal.FlagWait, internal.FlagJSON,
+		internal.FlagEmbedURL, internal.FlagEmbedColor, internal.FlagEmbedTimestamp, internal.FlagEmbedAuthorURL,
+		"u", "a", "w", "eu", "ec", "et", "eau",
+	}
+
+	if err := cmdcontext.EnsureFlags(ctx, ignoredFlags...); err != nil {
+		cli.ShowSubcommandHelp(ctx)
+		return errors.New("no content, file, or embed supplied")
 	}
 
 	if !ctx.Bool(internal.FlagWait) && ctx.Bool(internal.FlagJSON) {
+		cli.ShowSubcommandHelp(ctx)
 		return errors.New("must wait for message before output (use --wait)")
 	}
 

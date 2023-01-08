@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -16,11 +17,12 @@ import (
 
 func NewEditCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:      internal.CommandEdit,
-		Usage:     "Edit webhook message",
-		ArgsUsage: "<message id>",
-		Before:    beforeEdit,
-		Action:    actionEdit,
+		Name:         internal.CommandEdit,
+		Usage:        "Edit webhook message",
+		ArgsUsage:    "<message id>",
+		Before:       beforeEdit,
+		Action:       actionEdit,
+		OnUsageError: usageError,
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: internal.FlagContent, Usage: "plain text", Aliases: []string{"c"}},
 			&cli.StringSliceFlag{Name: internal.FlagFile, Usage: "webhook attachment", Aliases: []string{"f"}, TakesFile: true},
@@ -35,8 +37,14 @@ func NewEditCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
-	if err := cmdcontext.EnsureFlags(ctx); err != nil {
-		return err
+	ignoredFlags := []string{
+		internal.FlagJSON, internal.FlagEmbedURL, internal.FlagEmbedColor, internal.FlagEmbedTimestamp, internal.FlagEmbedAuthorURL,
+		"eu", "ec", "et", "eau",
+	}
+
+	if err := cmdcontext.EnsureFlags(ctx, ignoredFlags...); err != nil {
+		cli.ShowSubcommandHelp(ctx)
+		return errors.New("no content, file, or embed supplied")
 	}
 
 	return nil
@@ -47,7 +55,7 @@ func actionEdit(ctx *cli.Context) error {
 
 	arg, err := cmdcontext.Uint64Arg(ctx)
 	if err != nil {
-		return err
+		return fmt.Errorf("message id empty or invalid: %w", err)
 	}
 
 	id := discord.MessageID(arg)

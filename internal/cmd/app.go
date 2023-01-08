@@ -42,6 +42,7 @@ func NewApp() *cli.App {
 		},
 		Before:                    before,
 		CommandNotFound:           cmdNotFound,
+		OnUsageError:              usageError,
 		Version:                   Version,
 		DisableSliceFlagSeparator: true,
 		UseShortOptionHandling:    true,
@@ -66,7 +67,12 @@ func before(ctx *cli.Context) error {
 }
 
 func cmdNotFound(ctx *cli.Context, s string) {
-	cli.ShowAppHelp(ctx)
+	cli.ShowSubcommandHelp(ctx)
 	fmt.Fprintln(os.Stderr, "no matching command:", s)
 	os.Exit(1)
+}
+
+func usageError(ctx *cli.Context, err error, isSubcommand bool) error {
+	cli.ShowSubcommandHelp(ctx)
+	return err
 }

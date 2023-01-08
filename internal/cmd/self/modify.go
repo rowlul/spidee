@@ -15,10 +15,11 @@ import (
 
 func NewModifyCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:   internal.CommandModify,
-		Usage:  "Modify webhook",
-		Before: beforeEdit,
-		Action: actionEdit,
+		Name:         internal.CommandModify,
+		Usage:        "Modify webhook",
+		Before:       beforeEdit,
+		Action:       actionEdit,
+		OnUsageError: usageError,
 		Flags: []cli.Flag{
 			&cli.StringFlag{Name: internal.FlagUsername, Usage: "webhook username", Aliases: []string{"u"}},
 			&cli.StringFlag{Name: internal.FlagAvatar, Usage: "path to webhook avatar image", Aliases: []string{"a"}, TakesFile: true},
@@ -31,11 +32,17 @@ func NewModifyCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
-	if err := cmdcontext.EnsureFlags(ctx); err != nil {
-		return err
+	ignoredFlags := []string{
+		internal.FlagJSON,
+	}
+
+	if err := cmdcontext.EnsureFlags(ctx, ignoredFlags...); err != nil {
+		cli.ShowSubcommandHelp(ctx)
+		return errors.New("no username or avatar supplied")
 	}
 
 	if ctx.String(internal.FlagUsername) == "" && ctx.String(internal.FlagAvatar) != "" {
+		cli.ShowSubcommandHelp(ctx)
 		return errors.New("username must be supplied along with avatar")
 	}
 

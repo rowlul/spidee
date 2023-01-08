@@ -11,9 +11,10 @@ import (
 
 func NewGetCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:   internal.CommandGet,
-		Usage:  "Get webhook",
-		Action: actionGet,
+		Name:         internal.CommandGet,
+		Usage:        "Get webhook",
+		Action:       actionGet,
+		OnUsageError: usageError,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 			&cli.BoolFlag{Name: "no-redact", Usage: "don't redact sensitive data, e.g. webhook token"},

@@ -12,10 +12,11 @@ import (
 
 func NewGetCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:      internal.CommandGet,
-		Usage:     "Get message by specified id",
-		ArgsUsage: "<message id>",
-		Action:    actionGet,
+		Name:         internal.CommandGet,
+		Usage:        "Get message by specified id",
+		ArgsUsage:    "<message id>",
+		Action:       actionGet,
+		OnUsageError: usageError,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
 		},

@@ -5,13 +5,23 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/rowlul/spidee/internal/vt"
 	"github.com/urfave/cli/v2"
 )
 
-func EnsureFlags(ctx *cli.Context) error {
-	if ctx.NumFlags() == 0 && !vt.IsStdin() {
-		return errors.New("no flags supplied")
+func EnsureFlags(ctx *cli.Context, ignoredFlags ...string) error {
+	flags := ctx.LocalFlagNames()
+
+	for _, f := range ignoredFlags {
+		for i, v := range flags {
+			if v == f {
+				flags = append(flags[:i], flags[i+1:]...)
+				break
+			}
+		}
+	}
+
+	if len(flags) == 0 {
+		return errors.New("no valid flags supplied")
 	}
 
 	return nil

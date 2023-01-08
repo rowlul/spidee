@@ -7,8 +7,9 @@ import (
 
 func NewSelfCommand() *cli.Command {
 	cmd := &cli.Command{
-		Name:  internal.CommandSelf,
-		Usage: "Refer to webhook",
+		Name:         internal.CommandSelf,
+		Usage:        "Refer to webhook",
+		OnUsageError: usageError,
 		Subcommands: []*cli.Command{
 			NewGetCommand(),
 			NewModifyCommand(),
@@ -17,4 +18,9 @@ func NewSelfCommand() *cli.Command {
 	}
 
 	return cmd
+}
+
+func usageError(ctx *cli.Context, err error, isSubcommand bool) error {
+	cli.ShowSubcommandHelp(ctx)
+	return err
 }
