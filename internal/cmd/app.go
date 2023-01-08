@@ -32,6 +32,7 @@ func NewApp() *cli.App {
 				EnvVars:  []string{"SPIDEE_WEBHOOK_TOKEN"},
 				Required: true,
 			},
+			&cli.BoolFlag{Name: internal.FlagVersion, Usage: "print name and version", Aliases: []string{"v"}},
 		},
 		Commands: []*cli.Command{
 			NewSendCommand(),
@@ -40,6 +41,7 @@ func NewApp() *cli.App {
 			NewGetCommand(),
 			self.NewSelfCommand(),
 		},
+		Action:                    action,
 		Before:                    before,
 		CommandNotFound:           cmdNotFound,
 		OnUsageError:              usageError,
@@ -54,6 +56,17 @@ func NewApp() *cli.App {
 	}
 
 	return app
+}
+
+func action(ctx *cli.Context) error {
+	if ctx.Bool(internal.FlagVersion) {
+		fmt.Print(ctx.App.Name, "\n", ctx.App.Version)
+		os.Exit(0)
+	}
+
+	cli.ShowSubcommandHelpAndExit(ctx, 0)
+
+	return nil
 }
 
 func before(ctx *cli.Context) error {

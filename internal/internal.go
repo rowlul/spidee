@@ -12,8 +12,9 @@ const (
 )
 
 const (
-	FlagId    = "id"
-	FlagToken = "token"
+	FlagId      = "id"
+	FlagToken   = "token"
+	FlagVersion = "version"
 )
 
 const (
