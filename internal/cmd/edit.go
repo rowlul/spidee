@@ -19,7 +19,7 @@ func NewEditCommand() *cli.Command {
 	cmd := &cli.Command{
 		Name:         internal.CommandEdit,
 		Usage:        "Edit webhook message",
-		ArgsUsage:    "<message id>",
+		ArgsUsage:    "<message id> [content|payload]",
 		Before:       beforeEdit,
 		Action:       actionEdit,
 		OnUsageError: usageError,
@@ -37,6 +37,15 @@ func NewEditCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
+	if ctx.Args().First() != "" {
+		input := ctx.Args().First()
+		if json.Valid([]byte(input)) {
+			ctx.Set(internal.FlagPayload, input)
+		} else {
+			ctx.Set(internal.FlagContent, input)
+		}
+	}
+
 	if vt.IsStdin() {
 		input := strings.Join(vt.ReadStdin(), "\n")
 		if json.Valid([]byte(input)) {

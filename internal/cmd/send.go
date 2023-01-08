@@ -17,6 +17,7 @@ func NewSendCommand() *cli.Command {
 	cmd := &cli.Command{
 		Name:         internal.CommandSend,
 		Usage:        "Send webhook message",
+		ArgsUsage:    "[content|payload]",
 		Before:       beforeSend,
 		Action:       actionSend,
 		OnUsageError: usageError,
@@ -38,6 +39,15 @@ func NewSendCommand() *cli.Command {
 }
 
 func beforeSend(ctx *cli.Context) error {
+	if ctx.Args().First() != "" {
+		input := ctx.Args().First()
+		if json.Valid([]byte(input)) {
+			ctx.Set(internal.FlagPayload, input)
+		} else {
+			ctx.Set(internal.FlagContent, input)
+		}
+	}
+
 	if vt.IsStdin() {
 		input := strings.Join(vt.ReadStdin(), "\n")
 		if json.Valid([]byte(input)) {

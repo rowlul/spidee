@@ -17,6 +17,7 @@ func NewModifyCommand() *cli.Command {
 	cmd := &cli.Command{
 		Name:         internal.CommandModify,
 		Usage:        "Modify webhook",
+		ArgsUsage:    "[payload]",
 		Before:       beforeEdit,
 		Action:       actionEdit,
 		OnUsageError: usageError,
@@ -32,6 +33,11 @@ func NewModifyCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
+	if ctx.Args().First() != "" {
+		input := ctx.Args().First()
+		ctx.Set(internal.FlagPayload, input)
+	}
+
 	if vt.IsStdin() {
 		input := strings.Join(vt.ReadStdin(), "\n")
 		ctx.Set(internal.FlagPayload, input)
