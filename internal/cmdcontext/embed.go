@@ -62,8 +62,8 @@ func Embeds(ctx *cli.Context) ([]discord.Embed, error) {
 	footer := &discord.EmbedFooter{Text: ctx.String(internal.FlagEmbedFooterText), Icon: ctx.String(internal.FlagEmbedFooterIcon)}
 	image := &discord.EmbedImage{URL: ctx.String(internal.FlagEmbedImageURL)}
 	thumbnail := &discord.EmbedThumbnail{URL: ctx.String(internal.FlagEmbedThumbnailURL)}
-	video := &discord.EmbedVideo{URL: ctx.String(internal.FlagEmbedVideoURL)}
-	provider := &discord.EmbedProvider{Name: ctx.String(internal.FlagEmbedProviderName), URL: ctx.String(internal.FlagEmbedProviderURL)}
+	//video := &discord.EmbedVideo{URL: ctx.String(internal.FlagEmbedVideoURL)}
+	//provider := &discord.EmbedProvider{Name: ctx.String(internal.FlagEmbedProviderName), URL: ctx.String(internal.FlagEmbedProviderURL)}
 	author := &discord.EmbedAuthor{Name: ctx.String(internal.FlagEmbedAuthorName), URL: ctx.String(internal.FlagEmbedAuthorURL), Icon: ctx.String(internal.FlagEmbedAuthorIcon)}
 
 	timestamp, err := EmbedTimestamp(ctx)
@@ -86,10 +86,10 @@ func Embeds(ctx *cli.Context) ([]discord.Embed, error) {
 		Footer:      footer,
 		Image:       image,
 		Thumbnail:   thumbnail,
-		Video:       video,
-		Provider:    provider,
-		Author:      author,
-		Fields:      fields,
+		//Video:       video,
+		//Provider:    provider,
+		Author: author,
+		Fields: fields,
 	}
 
 	return embeds, embeds[0].Validate()
