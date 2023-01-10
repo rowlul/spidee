@@ -64,7 +64,7 @@ func action(ctx *cli.Context) error {
 		os.Exit(0)
 	}
 
-	cli.ShowSubcommandHelpAndExit(ctx, 0)
+	cli.ShowAppHelpAndExit(ctx, 0)
 
 	return nil
 }
@@ -86,6 +86,10 @@ func cmdNotFound(ctx *cli.Context, s string) {
 }
 
 func usageError(ctx *cli.Context, err error, isSubcommand bool) error {
-	cli.ShowSubcommandHelp(ctx)
+	if isSubcommand {
+		cli.ShowSubcommandHelp(ctx)
+	} else {
+		cli.ShowAppHelp(ctx)
+	}
 	return err
 }
