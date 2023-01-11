@@ -38,8 +38,8 @@ func NewEditCommand() *cli.Command {
 }
 
 func beforeEdit(ctx *cli.Context) error {
-	if ctx.Args().First() != "" {
-		input := ctx.Args().First()
+	if ctx.Args().Len() == 2 {
+		input := ctx.Args().Get(1)
 		if json.Valid([]byte(input)) {
 			ctx.Set(internal.FlagPayload, input)
 		} else {
