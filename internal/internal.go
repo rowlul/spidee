@@ -31,22 +31,22 @@ const (
 )
 
 const (
-	FlagEmbedTitle        = "embed.title"
-	FlagEmbedDescription  = "embed.description"
-	FlagEmbedURL          = "embed.url"
-	FlagEmbedTimestamp    = "embed.timestamp"
-	FlagEmbedColor        = "embed.color"
-	FlagEmbedFooterText   = "embed.footer.text"
-	FlagEmbedFooterIcon   = "embed.footer.icon"
-	FlagEmbedImageURL     = "embed.image.url"
-	FlagEmbedThumbnailURL = "embed.thumbnail.url"
-	FlagEmbedVideoURL     = "embed.video.url"
-	FlagEmbedProviderName = "embed.provider.name"
-	FlagEmbedProviderURL  = "embed.provider.url"
-	FlagEmbedAuthorName   = "embed.author.name"
-	FlagEmbedAuthorURL    = "embed.author.url"
-	FlagEmbedAuthorIcon   = "embed.author.icon"
-	FlagEmbedField        = "embed.field"
+	FlagEmbedTitle        = "embed-title"
+	FlagEmbedDescription  = "embed-description"
+	FlagEmbedURL          = "embed-url"
+	FlagEmbedTimestamp    = "embed-timestamp"
+	FlagEmbedColor        = "embed-color"
+	FlagEmbedFooterText   = "embed-footer-text"
+	FlagEmbedFooterIcon   = "embed-footer-icon"
+	FlagEmbedImageURL     = "embed-image-url"
+	FlagEmbedThumbnailURL = "embed-thumbnail-url"
+	FlagEmbedVideoURL     = "embed-video-url"
+	FlagEmbedProviderName = "embed-provider-name"
+	FlagEmbedProviderURL  = "embed-provider-url"
+	FlagEmbedAuthorName   = "embed-author-name"
+	FlagEmbedAuthorURL    = "embed-author-url"
+	FlagEmbedAuthorIcon   = "embed-author-icon"
+	FlagEmbedField        = "embed-field"
 )
 
 var EmbedFlags []cli.Flag = []cli.Flag{
