@@ -101,4 +101,4 @@ null
 
 ## License
 
-spidee is licensed under the MIT License. Please consult the attached LICENSE.md file for further details.
+spidee is licensed under the MIT License. Please consult the attached LICENSE file for further details.
