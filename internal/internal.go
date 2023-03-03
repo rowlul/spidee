@@ -28,6 +28,7 @@ const (
 	FlagWait      = "wait"
 	FlagJSON      = "json"
 	FlagNoRedact  = "no-redact"
+	FlagThreadId  = "thread-id"
 )
 
 const (

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
+	"github.com/diamondburned/arikawa/v3/discord"
 	"github.com/rowlul/spidee/internal"
 	"github.com/rowlul/spidee/internal/cmdcontext"
 	"github.com/rowlul/spidee/internal/vt"
@@ -27,6 +28,7 @@ func NewSendCommand() *cli.Command {
 			&cli.StringFlag{Name: internal.FlagAvatarURL, Usage: "webhook avatar url", Aliases: []string{"a"}},
 			&cli.BoolFlag{Name: internal.FlagTTS, Usage: "narrate message"},
 			&cli.StringSliceFlag{Name: internal.FlagFile, Usage: "webhook attachment", Aliases: []string{"f"}, TakesFile: true},
+			&cli.Uint64Flag{Name: internal.FlagThreadId, Usage: "thread id"},
 			&cli.StringFlag{Name: internal.FlagPayload, Usage: "raw json payload"},
 			&cli.BoolFlag{Name: internal.FlagWait, Usage: "wait for message to be created", Aliases: []string{"w"}},
 			&cli.BoolFlag{Name: internal.FlagJSON, Usage: "return JSON message object"},
@@ -61,6 +63,7 @@ func beforeSend(ctx *cli.Context) error {
 	ignoredFlags := []string{
 		internal.FlagUsername, internal.FlagAvatarURL, internal.FlagTTS, internal.FlagWait, internal.FlagJSON,
 		internal.FlagEmbedURL, internal.FlagEmbedColor, internal.FlagEmbedTimestamp, internal.FlagEmbedAuthorURL,
+		internal.FlagThreadId,
 		"u", "a", "w", "eu", "ec", "et", "eau",
 	}
 
@@ -97,6 +100,7 @@ func actionSend(ctx *cli.Context) error {
 			username  = ctx.String(internal.FlagUsername)
 			avatarUrl = ctx.String(internal.FlagAvatarURL)
 			tts       = ctx.Bool(internal.FlagTTS)
+			threadId  = discord.CommandID(ctx.Uint64(internal.FlagThreadId))
 		)
 
 		data = webhook.ExecuteData{
@@ -105,6 +109,7 @@ func actionSend(ctx *cli.Context) error {
 			AvatarURL: avatarUrl,
 			TTS:       tts,
 			Files:     files,
+			ThreadID:  threadId,
 		}
 
 		if cmdcontext.AnyEmbedFlag(ctx) {
