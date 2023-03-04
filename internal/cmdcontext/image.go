@@ -6,11 +6,12 @@ import (
 	"os"
 
 	"github.com/diamondburned/arikawa/v3/api"
+	"github.com/rowlul/spidee/internal"
 	"github.com/urfave/cli/v2"
 )
 
 func Image(c *cli.Context) (*api.Image, error) {
-	b, err := os.ReadFile(c.String("avatar"))
+	b, err := os.ReadFile(c.String(internal.FlagAvatar))
 	if err != nil {
 		return nil, err
 	}
