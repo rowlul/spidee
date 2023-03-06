@@ -90,7 +90,7 @@ spidee send --embed-content "Embed with some other timestamp" --embed-timestamp 
 Embed color in hex:
 
 ```shell
-spidee send --embed-content "Embed with some other timestamp" --embed-color 0xfcba03
+spidee send --embed-content "Embed with yellow color" --embed-color 0xfcba03
 ```
 
 Embed fields can be specified multiple times, must follow the `name,value,inline` syntax (inline is optional):
