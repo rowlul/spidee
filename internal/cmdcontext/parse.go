@@ -8,6 +8,9 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// EnsureFlags looks through cli.Context flags and ensures that there are any flags
+// passed to context excluding flags specified in ignoredFlags. If no ignored flags
+// are specified, this function will return an error if there are no flags whatsoever.
 func EnsureFlags(ctx *cli.Context, ignoredFlags ...string) error {
 	flags := ctx.LocalFlagNames()
 
@@ -27,6 +30,8 @@ func EnsureFlags(ctx *cli.Context, ignoredFlags ...string) error {
 	return nil
 }
 
+// Uint64Arg parses first arg in cli.Context and returns a uint64 value. If an
+// error occured, 0 and error will be returned respectively.
 func Uint64Arg(ctx *cli.Context) (uint64, error) {
 	arg := ctx.Args().First()
 

@@ -10,6 +10,10 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Image reads file from path specified in corresponding context flag, encodes
+// bytes to Base64, and returns an Image. In case image format is not jpeg, png, or
+// gif, an error will be returned.
+// https://discord.com/developers/docs/reference#image-data
 func Image(c *cli.Context) (*api.Image, error) {
 	b, err := os.ReadFile(c.String(internal.FlagAvatar))
 	if err != nil {

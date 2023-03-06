@@ -9,6 +9,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Files reads files from string slice flag and returns a slice of sendpart.File
+// with each file named respectively.
 func Files(ctx *cli.Context) ([]sendpart.File, error) {
 	var files []sendpart.File
 

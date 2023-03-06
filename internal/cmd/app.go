@@ -64,6 +64,8 @@ func action(ctx *cli.Context) error {
 		os.Exit(0)
 	}
 
+	// since we're overriding default root command behavior, we show help
+	// and exit by default if no command passed
 	cli.ShowAppHelpAndExit(ctx, 0)
 
 	return nil
