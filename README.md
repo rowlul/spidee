@@ -2,6 +2,22 @@
 
 Discord webhook CLI that enables you to send messages with embeds and files, modify webhook and more.
 
+## Features
+
+- [x] Send messages, files, embeds
+- [x] Set username and avatar on the fly
+- [x] Narrate message
+- [x] Get, edit and delete existing webhook messages by id
+- [x] Pipe plain text content or raw JSON payload
+- [x] Manage webhook (get, modify, and delete)
+- [x] Output JSON response
+
+Following features are not possible to implement due to Discord Webhook API limitations:
+
+- [ ] Change webhook text channel id
+- [ ] Send message with components (buttons, forms, etc)
+- [ ] Replying to user messages
+
 ## Usage
 
 `spidee [global options] command [command options] [arguments...]`
