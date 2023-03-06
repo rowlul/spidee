@@ -16,7 +16,7 @@ Following features are not possible to implement due to Discord Webhook API limi
 
 - [ ] Change webhook text channel id
 - [ ] Send message with components (buttons, forms, etc)
-- [ ] Replying to user messages
+- [ ] Reply to user messages
 
 ## Usage
 
