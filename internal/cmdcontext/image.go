@@ -1,4 +1,4 @@
-package util
+package cmdcontext
 
 import (
 	"encoding/base64"
@@ -6,19 +6,22 @@ import (
 	"os"
 
 	"github.com/diamondburned/arikawa/v3/api"
+	"github.com/rowlul/spidee/internal"
 	"github.com/urfave/cli/v2"
 )
 
-func BuildImageFromContext(c *cli.Context) (*api.Image, error) {
-	b, err := os.ReadFile(c.String("avatar"))
+// Image reads file from path specified in corresponding context flag, encodes
+// bytes to Base64, and returns an Image. In case image format is not jpeg, png, or
+// gif, an error will be returned.
+// https://discord.com/developers/docs/reference#image-data
+func Image(c *cli.Context) (*api.Image, error) {
+	b, err := os.ReadFile(c.String(internal.FlagAvatar))
 	if err != nil {
 		return nil, err
 	}
 
 	var b64 string
-	mimeType := http.DetectContentType(b)
-
-	switch mimeType {
+	switch http.DetectContentType(b) {
 	case "image/jpeg":
 		b64 += "data:image/jpeg;base64,"
 	case "image/png":

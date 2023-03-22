@@ -2,11 +2,9 @@ module github.com/rowlul/spidee
 
 go 1.18
 
-require github.com/urfave/cli/v2 v2.23.7
-
 require (
-	github.com/diamondburned/arikawa/v3 v3.1.0
-	github.com/matryer/is v1.4.0
+	github.com/diamondburned/arikawa/v3 v3.2.0
+	github.com/urfave/cli/v2 v2.25.0
 )
 
 require (
