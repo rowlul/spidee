@@ -3,8 +3,8 @@ module github.com/rowlul/spidee
 go 1.20
 
 require (
-	github.com/diamondburned/arikawa/v3 v3.2.0
-	github.com/urfave/cli/v2 v2.25.0
+	github.com/diamondburned/arikawa/v3 v3.3.0
+	github.com/urfave/cli/v2 v2.25.7
 )
 
 require (
