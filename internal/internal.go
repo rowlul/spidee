@@ -41,9 +41,6 @@ const (
 	FlagEmbedFooterIcon   = "embed-footer-icon"
 	FlagEmbedImageURL     = "embed-image-url"
 	FlagEmbedThumbnailURL = "embed-thumbnail-url"
-	FlagEmbedVideoURL     = "embed-video-url"
-	FlagEmbedProviderName = "embed-provider-name"
-	FlagEmbedProviderURL  = "embed-provider-url"
 	FlagEmbedAuthorName   = "embed-author-name"
 	FlagEmbedAuthorURL    = "embed-author-url"
 	FlagEmbedAuthorIcon   = "embed-author-icon"
@@ -60,9 +57,6 @@ var EmbedFlags []cli.Flag = []cli.Flag{
 	&cli.StringFlag{Name: FlagEmbedFooterIcon, Usage: "embed footer icon", Aliases: []string{"efi"}},
 	&cli.StringFlag{Name: FlagEmbedImageURL, Usage: "embed image url", Aliases: []string{"eiu"}},
 	&cli.StringFlag{Name: FlagEmbedThumbnailURL, Usage: "embed thumbnail url", Aliases: []string{"etu"}},
-	//&cli.StringFlag{Name: FlagEmbedVideoURL, Usage: "embed video url", Aliases: []string{"evu"}},
-	//&cli.StringFlag{Name: FlagEmbedProviderName, Usage: "embed provider name", Aliases: []string{"epn"}},
-	//&cli.StringFlag{Name: FlagEmbedProviderURL, Usage: "embed provider url", Aliases: []string{"epu"}},
 	&cli.StringFlag{Name: FlagEmbedAuthorName, Usage: "embed author name", Aliases: []string{"ean"}},
 	&cli.StringFlag{Name: FlagEmbedAuthorURL, Usage: "embed author url", Aliases: []string{"eau"}},
 	&cli.StringFlag{Name: FlagEmbedAuthorIcon, Usage: "embed author icon", Aliases: []string{"eai"}},
