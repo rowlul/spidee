@@ -13,6 +13,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+// Version specified via ldflags
 var Version string
 
 func NewApp() *cli.App {
