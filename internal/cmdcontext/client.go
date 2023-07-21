@@ -16,7 +16,7 @@ func WrapClient(ctx *cli.Context, client *webhook.Client) {
 }
 
 // UnwrapClient returns Discord Webhook API client object from cli inner context,
-// or nill if WrapClient had not been previously called.
+// or nil if WrapClient had not been previously called.
 func UnwrapClient(ctx *cli.Context) *webhook.Client {
 	return ctx.Context.Value(c{}).(*webhook.Client)
 }
