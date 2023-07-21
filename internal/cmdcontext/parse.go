@@ -35,7 +35,7 @@ func EnsureFlags(ctx *cli.Context, ignoredFlags ...string) error {
 func Uint64Arg(ctx *cli.Context) (uint64, error) {
 	arg := ctx.Args().First()
 
-	parsed, err := strconv.ParseUint(string(arg), 10, 64)
+	parsed, err := strconv.ParseUint(arg, 10, 64)
 	if err != nil {
 		return 0, fmt.Errorf("could not parse argument as uint64: %q", arg)
 	}

@@ -47,7 +47,7 @@ const (
 	FlagEmbedField        = "embed-field"
 )
 
-var EmbedFlags []cli.Flag = []cli.Flag{
+var EmbedFlags = []cli.Flag{
 	&cli.StringFlag{Name: FlagEmbedTitle, Usage: "embed title", Aliases: []string{"et"}},
 	&cli.StringFlag{Name: FlagEmbedDescription, Usage: "embed description", Aliases: []string{"ed"}},
 	&cli.StringFlag{Name: FlagEmbedURL, Usage: "embed url", Aliases: []string{"eu"}},

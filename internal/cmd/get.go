@@ -35,7 +35,7 @@ func actionGet(ctx *cli.Context) error {
 	}
 
 	id := discord.MessageID(arg)
-	message, err := client.Message(discord.MessageID(id))
+	message, err := client.Message(id)
 	if err != nil {
 		return err
 	}
