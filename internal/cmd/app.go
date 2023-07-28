@@ -41,7 +41,6 @@ func NewApp() *cli.App {
 			NewGetCommand(),
 			self.NewSelfCommand(),
 		},
-		Action:                    action,
 		Before:                    before,
 		CommandNotFound:           cmdNotFound,
 		OnUsageError:              usageError,
@@ -56,14 +55,6 @@ func NewApp() *cli.App {
 	}
 
 	return app
-}
-
-func action(ctx *cli.Context) error {
-	// since we're overriding default root command behavior, we show help
-	// and exit by default if no command passed
-	cli.ShowAppHelpAndExit(ctx, 0)
-
-	return nil
 }
 
 func before(ctx *cli.Context) error {
