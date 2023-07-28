@@ -17,6 +17,10 @@ import (
 var Version string
 
 func NewApp() *cli.App {
+	cli.VersionPrinter = func(ctx *cli.Context) {
+		fmt.Printf("%s %s", ctx.App.Name, ctx.App.Version)
+	}
+
 	app := &cli.App{
 		Name:  "spidee",
 		Usage: "Discord webhook CLI",
