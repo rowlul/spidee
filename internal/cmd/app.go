@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/diamondburned/arikawa/v3/api/webhook"
 	"github.com/diamondburned/arikawa/v3/discord"
@@ -14,9 +13,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// Version specified via ldflags. Defaults to v?-yyyyMMddHHmmss if not set via
-// ldflags.
-var Version string = "v?-" + time.Now().Format("20060102150405")
+// Version specified via ldflags
+var Version string
 
 func NewApp() *cli.App {
 	cli.VersionPrinter = func(ctx *cli.Context) {
