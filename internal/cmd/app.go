@@ -13,8 +13,8 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-// Version specified via ldflags
-var Version string
+// Version specified via ldflags, defaults to vDev if ldflags unspecified
+var Version string = "vDev"
 
 func NewApp() *cli.App {
 	cli.VersionPrinter = func(ctx *cli.Context) {
