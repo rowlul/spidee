@@ -1,6 +1,6 @@
 module github.com/rowlul/spidee
 
-go 1.20
+go 1.21
 
 require (
 	github.com/diamondburned/arikawa/v3 v3.3.1
