@@ -3,7 +3,7 @@ module github.com/rowlul/spidee
 go 1.21
 
 require (
-	github.com/diamondburned/arikawa/v3 v3.3.1
+	github.com/diamondburned/arikawa/v3 v3.3.3
 	github.com/urfave/cli/v2 v2.25.7
 )
 
