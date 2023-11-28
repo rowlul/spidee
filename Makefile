@@ -5,10 +5,10 @@ LDFLAGS = -X 'github.com/rowlul/spidee/internal/cmd.Version=$(VERSION)' -s -w
 all: test fmt vet clean build
 
 install: all
-	install -D -m 0755 build/spidee /usr/local/bin
+	install -D -m 0755 build/$(BINARY) /usr/local/bin
 
 install-user: all
-	install -D -m 0775 build/spidee ${HOME}/.local/bin
+	install -D -m 0775 build/$(BINARY) ${HOME}/.local/bin
 
 test:
 	@go test -v ./...
@@ -28,5 +28,5 @@ clean:
 build:
 	go build \
 	-ldflags "$(LDFLAGS)" \
-	-o build/spidee \
+	-o build/$(BINARY) \
 	./cmd/spidee
