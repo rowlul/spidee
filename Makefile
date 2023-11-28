@@ -25,8 +25,8 @@ clean:
 	@go clean
 
 .PHONY: build
-build: test fmt vet clean
-		go build \
-		-ldflags "$(LDFLAGS)" \
-		-o build/spidee \
-		./cmd/spidee
+build:
+	go build \
+	-ldflags "$(LDFLAGS)" \
+	-o build/spidee \
+	./cmd/spidee
